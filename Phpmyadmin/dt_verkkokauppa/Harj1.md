@@ -47,3 +47,23 @@ INSERT INTO Asiakkaat (nimi, sähköposti, osoite, rekisteröitymis_pvm, saldo) 
 ![alt text](./Harj1/6.png)
 
 ![alt text](./Harj1/7.png)
+
+
+```
+-- yksittäisen käyttäjän lisääminen ilman satunnaista lukua, et syöttää saldon itse
+INSERT INTO Asiakkaat (nimi, sähköposti, osoite, rekisteröitymis_pvm, saldo) VALUES 
+('Harry Shadows', 'harry@example.com', 'Newcastle, UK', '2005-07-13', 9999.00);
+```
+
+
+```
+-- päivitystä rekisteröitymis_pvm _ satunnaisesti n. 1950 - 2010
+-- aloituspiste on 2010-12-31 josta päivämääriä vähennettään randomisti 21915 päivää - vastaa n. 60 vuotta.
+UPDATE Asiakkaat
+SET rekisteröitymis_pvm = DATE_SUB('2010-12-31', INTERVAL FLOOR(RAND() * 21915) DAY);
+```
+
+```
+-- saldoa n. alle 5 000
+SELECT * FROM Asiakkaat WHERE floor(saldo) < 5000; 
+```
