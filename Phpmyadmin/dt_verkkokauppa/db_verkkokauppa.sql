@@ -1,4 +1,4 @@
--- Tämä sisältää: 
+-- Tämä sisältää: ja POHJA
 -- ✔ Tietokannan luomisen ✔ Taulujen rakenteet ja rajoitteet ✔ Indeksit ja viiteavaimet ✔ Alustavat tiedot kategorioille, tuotteille, asiakkaille ja tilauksille ✔ Tilauksen rivit, jotka yhdistävät tuotteet ja tilaukset
 -- tässä tietokannan nimi (database) on "Verkkokauppa" ja "Asiakkaat", "Kategoriat", "Maksutavat", "Tilauksen_rivit", "Tilaukset" ja "Tuotteet" ovat tauluja (tables)
 CREATE DATABASE verkkokauppa;
