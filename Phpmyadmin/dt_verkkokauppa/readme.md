@@ -1,0 +1,3 @@
+# verkkokauppa - database
+
+Verkkokauppa (database)
