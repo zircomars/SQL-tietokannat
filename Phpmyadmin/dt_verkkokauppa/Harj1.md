@@ -1,5 +1,6 @@
 # Muutamia ja pientä harjoitusta
 
+
 ## Tulosta kaksi tai useampi taulukko
 ```
 -- kaksi tai useampi taulukkoa tulostettuna
@@ -19,8 +20,17 @@ UPDATE Asiakkaat
 SET saldo = ROUND(RAND() * 50000, 2);
 ```
 
+![alt text](./Harj1/1.png)
 
+![alt text](./Harj1/2.png)
 
+![alt text](./Harj1/3.png)
+
+![alt text](./Harj1/4.png)
+
+![alt text](./Harj1/5.png)
+
+---
 
 ## Lisätään henkilöitä taulukkon alle
 ```
@@ -33,3 +43,7 @@ INSERT INTO Asiakkaat (nimi, sähköposti, osoite, rekisteröitymis_pvm, saldo) 
 ('Olivia White', 'olivia@example.com', 'Paris, France', '2022-12-05', ROUND(RAND() * 50000, 2)),
 ('Daniel Lee', 'daniel@example.com', 'Tokyo, Japan', '2023-03-18', ROUND(RAND() * 50000, 2));
 ```
+
+![alt text](./Harj1/6.png)
+
+![alt text](./Harj1/7.png)
