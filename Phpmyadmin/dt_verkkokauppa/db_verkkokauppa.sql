@@ -1,6 +1,6 @@
 -- Tämä sisältää: 
 -- ✔ Tietokannan luomisen ✔ Taulujen rakenteet ja rajoitteet ✔ Indeksit ja viiteavaimet ✔ Alustavat tiedot kategorioille, tuotteille, asiakkaille ja tilauksille ✔ Tilauksen rivit, jotka yhdistävät tuotteet ja tilaukset
-
+-- tässä tietokannan nimi (database) on "Verkkokauppa" ja "Asiakkaat", "Kategoriat", "Maksutavat", "Tilauksen_rivit", "Tilaukset" ja "Tuotteet" ovat tauluja (tables)
 CREATE DATABASE verkkokauppa;
 USE verkkokauppa;
 
@@ -28,8 +28,10 @@ CREATE TABLE Asiakkaat (
     nimi VARCHAR(255) NOT NULL, -- Asiakkaan nimi, esim. "Matti Meikäläinen"
     sähköposti VARCHAR(255) NOT NULL UNIQUE, -- Uniikki sähköpostiosoite
     osoite TEXT, -- Asiakkaan osoite
-    rekisteröitymis_pvm DATE -- Päivämäärä, jolloin asiakas rekisteröityi
+    rekisteröitymis_pvm DATE, -- Päivämäärä, jolloin asiakas rekisteröityi
+    saldo DECIMAL(10,2) NOT NULL DEFAULT 0.00 -- Asiakkaan tilillä oleva saldo, oletusarvo 0.00
 );
+
 
 -- Maksutavat-taulu: sisältää eri maksuvaihtoehdot
 CREATE TABLE Maksutavat (
@@ -90,17 +92,24 @@ INSERT INTO Tuotteet (nimi, hinta, kategoria_id, varastotilanne) VALUES
 
 
 -- Asiakkaiden lisääminen
-INSERT INTO Asiakkaat (nimi, sähköposti, osoite, rekisteröitymis_pvm) VALUES 
-('Matti Meikäläinen', 'matti@example.com', 'Helsinki, Suomi', '2024-01-15'),
-('Anna Virtanen', 'anna@example.com', 'Espoo, Suomi', '2023-11-23'),
-('Jari Korhonen', 'jari@example.com', 'Tampere, Suomi', '2025-04-10'),
-('Paula Laine', 'paula@example.com', 'Turku, Suomi', '2025-05-01'),
-('Sami Nieminen', 'sami@example.com', 'Jyväskylä, Suomi', '2023-09-30'),
-('Laura Hiltunen', 'laura@example.com', 'Oulu, Suomi', '2022-07-18'),
-('Tomi Salminen', 'tomi@example.com', 'Kuopio, Suomi', '2024-02-25'),
-('Riikka Mäkelä', 'riikka@example.com', 'Vaasa, Suomi', '2025-05-19'),
-('Eero Kallio', 'eero@example.com', 'Rovaniemi, Suomi', '2024-10-10'),
-('Veera Lehtinen', 'veera@example.com', 'Lappeenranta, Suomi', '2023-12-05');
+INSERT INTO Asiakkaat (nimi, sähköposti, osoite, rekisteröitymis_pvm, saldo) VALUES 
+('Matti Meikäläinen', 'matti@example.com', 'Helsinki, Suomi', '2024-01-15', ROUND(RAND() * 50000, 2)),
+('Anna Virtanen', 'anna@example.com', 'Espoo, Suomi', '2023-11-23', ROUND(RAND() * 50000, 2)),
+('Jari Korhonen', 'jari@example.com', 'Tampere, Suomi', '2025-04-10', ROUND(RAND() * 50000, 2)),
+('Paula Laine', 'paula@example.com', 'Turku, Suomi', '2025-05-01', ROUND(RAND() * 50000, 2)),
+('Sami Nieminen', 'sami@example.com', 'Jyväskylä, Suomi', '2023-09-30', ROUND(RAND() * 50000, 2)),
+('Laura Hiltunen', 'laura@example.com', 'Oulu, Suomi', '2022-07-18', ROUND(RAND() * 50000, 2)),
+('Tomi Salminen', 'tomi@example.com', 'Kuopio, Suomi', '2024-02-25', ROUND(RAND() * 50000, 2)),
+('Riikka Mäkelä', 'riikka@example.com', 'Vaasa, Suomi', '2025-05-19', ROUND(RAND() * 50000, 2)),
+('Eero Kallio', 'eero@example.com', 'Rovaniemi, Suomi', '2024-10-10', ROUND(RAND() * 50000, 2)),
+('Veera Lehtinen', 'veera@example.com', 'Lappeenranta, Suomi', '2023-12-05', ROUND(RAND() * 50000, 2)),
+
+-- 5 satunnaista englanninkielistä nimeä
+('John Smith', 'john@example.com', 'New York, USA', '2024-03-22', ROUND(RAND() * 50000, 2)),
+('Emily Johnson', 'emily@example.com', 'Los Angeles, USA', '2023-06-11', ROUND(RAND() * 50000, 2)),
+('Michael Brown', 'michael@example.com', 'London, UK', '2025-02-05', ROUND(RAND() * 50000, 2)),
+('Sarah Wilson', 'sarah@example.com', 'Toronto, Canada', '2024-12-09', ROUND(RAND() * 50000, 2)),
+('David Martinez', 'david@example.com', 'Sydney, Australia', '2023-08-20', ROUND(RAND() * 50000, 2));
 
 
 
@@ -139,6 +148,3 @@ INSERT INTO Tilauksen_rivit (tilaus_id, tuote_id, määrä, yhteishinta) VALUES
 (6, 6, 1, 39.99), -- Laura osti veitsisetin keittiöön
 (7, 1, 1, 599.99), -- Tomi osti puhelimen
 (8, 7, 2, 159.98); -- Riikka osti kaksi kuuloketta
-
-
-
