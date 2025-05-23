@@ -77,3 +77,25 @@ SET rekisteröitymis_pvm = DATE_SUB('2010-12-31', INTERVAL FLOOR(RAND() * 21915)
 -- saldoa n. alle 5 000
 SELECT * FROM Asiakkaat WHERE floor(saldo) < 5000; 
 ```
+
+---
+
+# JOIN + WHERE
+
+Näytä kaikki tilaukset, joissa asiakas on "Jari Korhonen", ja listaa tilauspäivämäärä ja tilauksen tila.
+Tarvittaan `JOIN Asiakkaat` + `Tilaukset`
+
+![alt text](./Harj1/8.png)
+
+![alt text](./Harj1/9.png)
+
+Pientä teoriaa, tietokannassa siis taulukkossa on "Tilaukset" , "Asiakkaat" erissä tiedoissa. 
+- "Tilaukset" voi sisältyä eri tietoja kuten `tilaus_pvm` ja `toimitus_status`
+- "Asiakkaat" sisältyy asiakkastietoja just mm. nimi, asiakas_id , jne.
+
+Tässä (vastauksessa) on toistettu kaksi taulukkoa, kun haettaan/tarvitaan tiettyä "JOIN" jotta tiedot liittyvät toisiinsa
+JOIN vähä kuin viittaa taulukko Asiakkaaseen, tämä ON tarkoittaa ehtoa vähä kuin A yhtä kuin B.
+sitten WHERE haettaan Jari Korhonen nimeä. 
+
+Sama pätee jos haluttaisiin useampi nimi sitten tulee sulkuun ja heittomerkit ketä me haluataan viitata ja sama pätee että halutaan nimettyä henkilöitä
+WHERE Asiakkaat.nimi IN ('Jori Korhonen', 'Anna Virtanen', 'Matti Meikäläinen');
