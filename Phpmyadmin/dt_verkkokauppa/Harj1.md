@@ -136,6 +136,7 @@ Ryhmittelee tulokset asiakkaan nimen perusteella, jotta jokainen asiakas saa oma
 
 # JOIN + GROUP BY SUM
 Tämä kuin aikaisempi harjoitus, mutta lisätty HAVING SUM(...) > 1000
+
 Summa käyttäneet yli 1000e (saldoa)
 
 ```
