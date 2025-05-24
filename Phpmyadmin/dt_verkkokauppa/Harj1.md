@@ -99,3 +99,42 @@ sitten WHERE haettaan Jari Korhonen nimeä.
 
 Sama pätee jos haluttaisiin useampi nimi sitten tulee sulkuun ja heittomerkit ketä me haluataan viitata ja sama pätee että halutaan nimettyä henkilöitä
 WHERE Asiakkaat.nimi IN ('Jori Korhonen', 'Anna Virtanen', 'Matti Meikäläinen');
+
+
+---
+
+# JOIN + GROUP BY + SUM
+
+Näytä kunkin asiakkaan nimi ja kuinka paljon he ovat käyttäneet rahaa yhteensä tilauksiinsa.
+
+Tarvittaan JOINia vähintään 3 taulusta:
+Asiakkaat → Tilaukset → Tilauksen_rivit
+
+```
+SELECT Asiakkaat.nimi, SUM(Tilauksen_rivit.hinta * Tilauksen_rivit.maara) AS kokonaiskulut
+FROM Asiakkaat
+JOIN Tilaukset ON Asiakkaat.id = Tilaukset.asiakas_id
+JOIN Tilauksen_rivit ON Tilaukset.id = Tilauksen_rivit.tilaus_id
+GROUP BY Asiakkaat.nimi;
+```
+
+![alt text](./Harj1/10.png)
+
+
+Mini teoria;
+Lasketaan SUM(hinta * määrä), eli jokaisen asiakkaan kaikki tilausten rivit yhteenlaskettu summa.
+
+JOIN:
+Asiakkaat JOIN Tilaukset yhdistää asiakkaan ja hänen tilauksensa käyttämällä asiakas_id.
+Tilaukset JOIN Tilauksen_rivit yhdistää tilaukset ja niiden yksittäiset rivit tilaus_id-sarakkeen kautta.
+
+
+GROUP BY:
+Ryhmittelee tulokset asiakkaan nimen perusteella, jotta jokainen asiakas saa oman rivinsä tuloksessa.
+
+
+
+
+
+
+
