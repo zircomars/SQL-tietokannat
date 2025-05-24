@@ -163,10 +163,17 @@ SELECT * FROM Asiakkaat
 WHERE sähköposti LIKE '%example.com' 
 AND (osoite LIKE '%USA%' OR osoite LIKE '%Germany%');
 
-
+/* Pieni huomoina koskien yhtäkuin = merkkiä ei tue % jokerimerkkiä - tämä ei palauta odotettujen tulosta siksi tulee ratkaisuksi ja käyttäen "LIKE" - jokerinmerkkin kanssa. Jos esim. just kaupunki ja maa (New York, USA) siksi vertailumerkkin tulee (=) ei toimi, vaan käyttäen %USA%
+*/
 
 --==========================================
+-- SQL OR operaattori
 
+-- Where voidaan sisältyä OR operaattoria
+
+SELECT *
+FROM Customers
+WHERE Country = 'Germany' OR Country = 'Spain';
 
 
 
