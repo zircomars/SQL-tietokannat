@@ -104,3 +104,74 @@ kategoria_id	nimi	                hinta (€)
 SELECT Tuotteet.id, Tuotteet.nimi, Tuotteet.varastotilanne 
 FROM Tuotteet 
 ORDER BY id, nimi, varastotilanne; 
+
+
+--============================================================
+
+-- SQL AND Operator (AND vs OR)
+-- WHERE- ja AND-operaattorit ovat osa SQL-kyselyiden ehtoja, joiden avulla voit suodattaa tietoa tietokannasta.
+
+-- esim haettaisiin Asiakkaasta kennellä on saldo yli 30 000
+SELECT * FROM Asiakkaat
+WHERE saldo > 30000;
+
+
+
+-- Esim. hakisi kennellä on yli 10k (10 000) saldoa ja kotoisin UK:sta
+SELECT * FROM Asiakkaat 
+WHERE saldo > 10000 AND osoite LIKE '%UK'; 
+
+/* AND vs OR - operaattorit SQL:ssä
+
+AND → Palauttaa vain rivit, joissa kaikki ehdot ovat totta.
+
+OR → Palauttaa rivit, jos yksi tai useampi ehto on totta.
+
+*/
+
+
+-- haettana Asiakkaan taulukoa, joka sijaitsee osoitteessa USA, saldo on enemmän kuin 10k , ja rekisteröinyt ennen vuotta 1999. Rekisteröitymisestä käyttäen 1999-01-01 muotoa.
+SELECT * FROM Asiakkaat
+WHERE osoite like '%USA%'
+AND saldo > 10000
+AND rekisteröitymis_pvm < '1999-01-01';
+
+
+
+-- kokeillaan haettaisiin USA jA UK, että sama tyyppisellä, sekä WHERE voi toimia ilman sulkeita mutta auttaa pientä hahmottamista
+SELECT * FROM Asiakkaat
+WHERE (osoite like '%USA%' OR osoite like '%UK%')
+AND saldo > 10000
+AND rekisteröitymis_pvm < '1999-01-01';
+
+/*
+WHERE ilman sulkeita toimii, mutta kuten aiemmin mainitsin, sulkeet voivat auttaa varmistamaan oikean loogisen järjestyksen etenkin kun yhdistetään AND ja OR-operaattoreita.
+
+SQL käsittelee AND-ehtoja ennen OR-ehtoja, joten jos haluat varmistaa, että OR toimii ensin, sulkeet voivat olla hyödyllisiä. Mutta jos ehtosi toimivat ilman sulkeita ja saat oikeat tulokset, ei ole pakollista käyttää niitä.
+*/
+
+-- yhdistettään AND ja OR operaattoria, sekä tarvittaan vastaavasti LIKE operaattori mukaan joka kerta
+-- Tässä tapahtuu haettaan missä osoite on kuin "UK", tai osoite on kuin "Saksa", tai osoite on kuin "japani" sitten saldo enemmän kuin 30k ja rekisteröitymis_pvm ennen 2010-01-01
+SELECT * FROM Asiakkaat
+WHERE osoite like '%UK%' OR osoite LIKE '%Germany%' OR osoite LIKE '%Japan%'
+AND saldo > 30000
+AND rekisteröitymis_pvm < '2010-01-01';
+
+
+-- haettaan Asiakkaan taulukkosta, kuin missä sähköposti on "example.com", ja osoitteesta pitää sisältää joko USA ja Saksasta. & AND rivissä voi toimia ilman sulkeittakin
+SELECT * FROM Asiakkaat 
+WHERE sähköposti LIKE '%example.com' 
+AND (osoite LIKE '%USA%' OR osoite LIKE '%Germany%');
+
+
+
+--==========================================
+
+
+
+
+
+
+
+
+
