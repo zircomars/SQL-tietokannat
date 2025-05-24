@@ -92,25 +92,48 @@ INSERT INTO Tuotteet (nimi, hinta, kategoria_id, varastotilanne) VALUES
 
 
 -- Asiakkaiden lisääminen
-INSERT INTO Asiakkaat (nimi, sähköposti, osoite, rekisteröitymis_pvm, saldo) VALUES 
-('Matti Meikäläinen', 'matti@example.com', 'Helsinki, Suomi', '2024-01-15', ROUND(RAND() * 50000, 2)),
-('Anna Virtanen', 'anna@example.com', 'Espoo, Suomi', '2023-11-23', ROUND(RAND() * 50000, 2)),
-('Jari Korhonen', 'jari@example.com', 'Tampere, Suomi', '2025-04-10', ROUND(RAND() * 50000, 2)),
-('Paula Laine', 'paula@example.com', 'Turku, Suomi', '2025-05-01', ROUND(RAND() * 50000, 2)),
-('Sami Nieminen', 'sami@example.com', 'Jyväskylä, Suomi', '2023-09-30', ROUND(RAND() * 50000, 2)),
-('Laura Hiltunen', 'laura@example.com', 'Oulu, Suomi', '2022-07-18', ROUND(RAND() * 50000, 2)),
-('Tomi Salminen', 'tomi@example.com', 'Kuopio, Suomi', '2024-02-25', ROUND(RAND() * 50000, 2)),
-('Riikka Mäkelä', 'riikka@example.com', 'Vaasa, Suomi', '2025-05-19', ROUND(RAND() * 50000, 2)),
-('Eero Kallio', 'eero@example.com', 'Rovaniemi, Suomi', '2024-10-10', ROUND(RAND() * 50000, 2)),
-('Veera Lehtinen', 'veera@example.com', 'Lappeenranta, Suomi', '2023-12-05', ROUND(RAND() * 50000, 2)),
-
--- 5 satunnaista englanninkielistä nimeä
-('John Smith', 'john@example.com', 'New York, USA', '2024-03-22', ROUND(RAND() * 50000, 2)),
-('Emily Johnson', 'emily@example.com', 'Los Angeles, USA', '2023-06-11', ROUND(RAND() * 50000, 2)),
-('Michael Brown', 'michael@example.com', 'London, UK', '2025-02-05', ROUND(RAND() * 50000, 2)),
-('Sarah Wilson', 'sarah@example.com', 'Toronto, Canada', '2024-12-09', ROUND(RAND() * 50000, 2)),
-('David Martinez', 'david@example.com', 'Sydney, Australia', '2023-08-20', ROUND(RAND() * 50000, 2));
-
+INSERT INTO `Asiakkaat` (`id`, `nimi`, `sähköposti`, `osoite`, `rekisteröitymis_pvm`, `saldo`) VALUES
+(1, 'Matti Meikäläinen', 'matti@example.com', 'Helsinki, Suomi', '1965-06-05', 6760.87),
+(2, 'Anna Virtanen', 'anna@example.com', 'Espoo, Suomi', '1964-07-31', 29689.94),
+(3, 'Jari Korhonen', 'jari@example.com', 'Tampere, Suomi', '1975-08-18', 28167.12),
+(4, 'Paula Laine', 'paula@example.com', 'Turku, Suomi', '1973-05-26', 1765.79),
+(5, 'Sami Nieminen', 'sami@example.com', 'Jyväskylä, Suomi', '1989-02-08', 24327.57),
+(6, 'Laura Hiltunen', 'laura@example.com', 'Oulu, Suomi', '1954-05-05', 16340.49),
+(7, 'Tomi Salminen', 'tomi@example.com', 'Kuopio, Suomi', '1973-05-21', 8719.74),
+(8, 'Riikka Mäkelä', 'riikka@example.com', 'Vaasa, Suomi', '1992-11-25', 44577.25),
+(9, 'Eero Kallio', 'eero@example.com', 'Rovaniemi, Suomi', '1973-05-07', 46727.02),
+(10, 'Veera Lehtinen', 'veera@example.com', 'Lappeenranta, Suomi', '1997-01-12', 49903.36),
+(11, 'William Taylor', 'william@example.com', 'Manchester, UK', '1994-02-13', 7204.28),
+(12, 'Sophia Garcia', 'sophia@example.com', 'Madrid, Spain', '1968-07-03', 44371.53),
+(13, 'James Anderson', 'james@example.com', 'Berlin, Germany', '1969-02-27', 244.82),
+(14, 'Olivia White', 'olivia@example.com', 'Paris, France', '1989-04-13', 18109.52),
+(15, 'Daniel Lee', 'daniel@example.com', 'Tokyo, Japan', '1967-12-08', 39813.12),
+(16, 'Nathan Reed', 'nathan@example.com', 'Dallas, USA', '2008-11-25', 31193.00),
+(17, 'Isabella Evans', 'isabella@example.com', 'Auckland, New Zealand', '2022-03-28', 42631.48),
+(18, 'Ethan Hall', 'ethan@example.com', 'Toronto, Canada', '2004-06-21', 29261.16),
+(19, 'Lily Adams', 'lily@example.com', 'Berlin, Germany', '2014-07-25', 22278.64),
+(20, 'Jackson Murphy', 'jackson@example.com', 'Sydney, Australia', '2002-06-07', 9943.83),
+(105, 'Haruto Takahashi', 'haruto@example.com', 'Osaka, Japan', '1992-07-15', 31267.45),
+(106, 'Yuki Nakamura', 'yuki@example.com', 'Kyoto, Japan', '1985-03-22', 27560.88),
+(107, 'Satoshi Yamamoto', 'satoshi@example.com', 'Nagoya, Japan', '1978-09-08', 18277.51),
+(108, 'Jessica Carter', 'jessica@example.com', 'Chicago, USA', '1990-06-14', 42387.92),
+(109, 'Brandon Mitchell', 'brandon@example.com', 'Miami, USA', '1988-11-02', 19872.65),
+(110, 'Rachel Cooper', 'rachel@example.com', 'Seattle, USA', '1995-04-30', 36258.41),
+(111, 'Oliver Bennett', 'oliver@example.com', 'Wellington, New Zealand', '1993-02-19', 28735.67),
+(112, 'Charlotte King', 'charlotte@example.com', 'Christchurch, New Zealand', '1986-08-25', 18623.40),
+(113, 'Liam Scott', 'liam@example.com', 'Queenstown, New Zealand', '2001-12-03', 42205.19),
+(114, 'Maximilian Hoffmann', 'maximilian@example.com', 'Stuttgart, Germany', '1982-09-16', 14872.56),
+(115, 'Hannah Schulz', 'hannah@example.com', 'Cologne, Germany', '1996-07-07', 39981.32),
+(116, 'Elias Wagner', 'elias@example.com', 'Dresden, Germany', '1974-05-11', 25462.47),
+(117, 'Noah Thompson', 'noah@example.com', 'Melbourne, Australia', '1995-09-21', 31720.89),
+(118, 'Ava Robinson', 'ava@example.com', 'Perth, Australia', '1989-06-10', 18349.29),
+(119, 'Daniel Harris', 'daniel2@example.com', 'Liverpool, UK', '1992-02-15', 22731.56),
+(120, 'Grace Edwards', 'grace@example.com', 'Glasgow, UK', '2000-07-05', 31982.74),
+(121, 'Alejandro Lopez', 'alejandro@example.com', 'Malaga, Spain', '1984-11-30', 29381.44),
+(122, 'Carla Torres', 'carla@example.com', 'Bilbao, Spain', '1997-04-18', 35829.17),
+(123, 'Lucas Dupont', 'lucas@example.com', 'Brussels, Belgium', '1986-03-22', 19282.50),
+(124, 'Elise Verhoeven', 'elise@example.com', 'Antwerp, Belgium', '1991-08-14', 38916.38),
+(125, 'Nathan Dewaele', 'nathan2@example.com', 'Ghent, Belgium', '2005-12-09', 26382.71);
 
 
 -- Maksutapojen lisääminen
