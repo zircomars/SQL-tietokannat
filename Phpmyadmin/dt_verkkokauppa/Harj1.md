@@ -195,7 +195,35 @@ CASE: luodaan uusi sarake tilaustyyppi logiikan mukaisesti, ja ei tarvita sulkei
 AS: nimeää sarakkeen tuloksissa
 
 
+---
 
+# Alikysely (Subquery)
+Näyttää asiakkaat, jotka eivät ole tehneet yhtään tilausta.
+
+Tämä vaatii NOT IN (SELECT asiakas_id FROM Tilaukset)
+tai vaihtoehtoisesti LEFT JOIN ja WHERE Tilaukset.id IS NULL
+
+
+Eli asiakkaat jotka eivät ole tehneet yhtään tilausta. 
+```
+SELECT nimi
+FROM Asiakkaat
+WHERE id NOT IN (
+    SELECT asiakas_id FROM Tilaukset
+);
+```
+
+## Toinen vaihtoehto - LEFT JOIN + IS NULL
+Kaikki asiakkaat haetaan mukaan (LEFT JOIN)
+
+Jos asiakas ei ole tehnyt tilausta, Tilaukset.id jää tyhjäksi → IS NULL
+
+```
+SELECT Asiakkaat.nimi
+FROM Asiakkaat
+LEFT JOIN Tilaukset ON Asiakkaat.id = Tilaukset.asiakas_id
+WHERE Tilaukset.id IS NULL;
+```
 
 
 
