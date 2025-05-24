@@ -171,9 +171,39 @@ AND (osoite LIKE '%USA%' OR osoite LIKE '%Germany%');
 
 -- Where voidaan sisältyä OR operaattoria
 
--- haettaan Tuotteen kategoriasta id mukaan joko 1 tai 4
+-- haettaan Tuotteen kategoriasta id mukaan joko 1 tai 4 
 SELECT * FROM Tuotteet
 WHERE kategoria_id = '1' OR Tuotteet.kategoria_id = '4';
+
+
+-- SQL NOT Operator (kielteinen)
+-- että haluttaan negatiivista ja tiettyä ominaisuutta ikään ei haluta. Kielteisen ehdon (NOT tai !=) ja samalla suodattaa tiettyjä kategorioita yhdellä SQL-kyselyllä
+
+-- Haetaan Tuotteet-taulukosta, mutta EI haluta kategoria ID:tä 3
+SELECT * FROM Tuotteet 
+WHERE NOT Tuotteet.kategoria_id = '3'; 
+
+-- METHOD 2
+-- Haetaan tuotteet, mutta jätetään pois kategoria ID 3
+SELECT * FROM Tuotteet 
+WHERE kategoria_id != 3;
+
+
+-- Tämä sulkee pois kategoriat, joissa id = 3, mutta näyttää kategoriat, joissa id = 4 , mutta silti näyttää kategoria_id siis numeroidut 1,2, 4 ja 5:sen vaikka haluttaisiin VAIN 4:sen
+SELECT * FROM Tuotteet 
+WHERE kategoria_id != 3 OR kategoria_id = 4;
+
+
+
+-- Tämä näyttää vain kategoriassa 4 olevat tuotteet, eikä sisällä mitään kategoriasta 3.
+SELECT * FROM Tuotteet 
+WHERE kategoria_id = 4 AND kategoria_id != 3;
+
+
+-- ANOTHER METHOD:
+-- käytettään laajempaa kielteistä ehtoa ja jättää pois useita kategorioita. Tämä sulkee pois kategoriat 3 ja 5, mutta näyttää kaikki kategoriassa 4 olevat tuotteet.
+SELECT * FROM Tuotteet 
+WHERE kategoria_id NOT IN (3, 5) OR kategoria_id = 4;
 
 
 
