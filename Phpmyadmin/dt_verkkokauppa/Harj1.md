@@ -159,6 +159,44 @@ SUM(): laskee ryhmälle yhteissumman (tässä: paljonko kukin asiakas on käytt�
 HAVING: suodattaa ryhmiä aggregaattifunktion (SUM, AVG jne.) perusteella
 (ei käytetä WHERE vaan HAVING aggregaattien kanssa!)
 
+---
+
+# CASE + JOIN
+
+Näytä tilaukset, ja lisää sarake "tilaustyyppi", joka kertoo:
+
+jos status on käsittelyssä → "Vireillä"
+
+jos status on toimitettu → "Valmis"
+
+muuten → "Matkalla"
+
+Hyödynnettään CASE-lausetta.
+
+```
+SELECT 
+    Asiakkaat.nimi,
+    Tilaukset.tilaus_pvm,
+    Tilaukset.toimitus_status,
+    CASE
+        WHEN Tilaukset.toimitus_status = 'käsittelyssä' THEN 'Vireillä'
+        WHEN Tilaukset.toimitus_status = 'toimitettu' THEN 'Valmis'
+        ELSE 'Matkalla'
+    END AS tilaustyyppi
+FROM Tilaukset
+JOIN Asiakkaat ON Tilaukset.asiakas_id = Asiakkaat.id;
+```
+
+Mini teoria: <br>
+JOIN: liitetään asiakkaan nimi tilaukseen
+
+CASE: luodaan uusi sarake tilaustyyppi logiikan mukaisesti, ja ei tarvita sulkeita
+
+AS: nimeää sarakkeen tuloksissa
+
+
+
+
 
 
 
