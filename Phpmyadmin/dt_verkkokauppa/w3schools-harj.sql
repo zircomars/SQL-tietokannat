@@ -171,9 +171,9 @@ AND (osoite LIKE '%USA%' OR osoite LIKE '%Germany%');
 
 -- Where voidaan sisältyä OR operaattoria
 
-SELECT *
-FROM Customers
-WHERE Country = 'Germany' OR Country = 'Spain';
+-- haettaan Tuotteen kategoriasta id mukaan joko 1 tai 4
+SELECT * FROM Tuotteet
+WHERE kategoria_id = '1' OR Tuotteet.kategoria_id = '4';
 
 
 
