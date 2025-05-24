@@ -78,7 +78,6 @@ INSERT INTO Kategoriat (nimi) VALUES
 ('Kodin tarvikkeet');
 
 -- Tuotteiden lisääminen
-
 INSERT INTO Tuotteet (nimi, hinta, kategoria_id, varastotilanne) VALUES 
 ('Älypuhelin', 599.99, 1, 50),
 ('Kannettava tietokone', 1299.99, 1, 20),
@@ -87,7 +86,18 @@ INSERT INTO Tuotteet (nimi, hinta, kategoria_id, varastotilanne) VALUES
 ('Romaani', 12.99, 3, 70),
 ('Keittiön veitsisetti', 39.99, 5, 30),
 ('Bluetooth-kuulokkeet', 79.99, 1, 75),
-('Urheilutakki', 119.99, 2, 40);
+('Urheilutakki', 119.99, 2, 40),
+('Pelihiiri', 49.99, 1, 60),
+('Tabletti', 399.99, 1, 35),
+('Farkut', 59.99, 2, 80),
+('Juomapullo', 14.99, 4, 120),
+('Novellikokoelma', 17.99, 3, 45),
+('Grillipannu', 89.99, 5, 25),
+('Langaton kaiutin', 129.99, 1, 50),
+('Sadetakki', 79.99, 2, 55),
+('Salikengät', 99.99, 4, 40),
+('Kasviskokkikirja', 22.99, 3, 30);
+
 
 
 
