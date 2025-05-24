@@ -121,7 +121,7 @@ GROUP BY Asiakkaat.nimi;
 ![alt text](./Harj1/10.png)
 
 
-Mini teoria;
+Mini teoria;<br>
 Lasketaan SUM(hinta * määrä), eli jokaisen asiakkaan kaikki tilausten rivit yhteenlaskettu summa.
 
 JOIN:
@@ -132,6 +132,31 @@ Tilaukset JOIN Tilauksen_rivit yhdistää tilaukset ja niiden yksittäiset rivit
 GROUP BY:
 Ryhmittelee tulokset asiakkaan nimen perusteella, jotta jokainen asiakas saa oman rivinsä tuloksessa.
 
+---
+
+# JOIN + GROUP BY SUM
+Tämä kuin aikaisempi harjoitus, mutta lisätty HAVING SUM(...) > 1000
+Summa käyttäneet yli 1000e (saldoa)
+
+```
+SELECT Asiakkaat.nimi, SUM(Tilauksen_rivit.yhteishinta) AS saldo
+FROM Asiakkaat
+JOIN Tilaukset ON Asiakkaat.id = Tilaukset.asiakas_id
+JOIN Tilauksen_rivit ON Tilaukset.id = Tilauksen_rivit.tilaus_id
+GROUP BY Asiakkaat.nimi
+HAVING SUM(Tilauksen_rivit.yhteishinta) > 1000;
+```
+
+Muutin alle 1000 (saldo) niin toi muutaman rivin tuloksensa, mutta hyvä check
+
+
+Mini teoria; <br>
+GROUP BY: ryhmittelee rivit esimerkiksi asiakkaan nimen mukaan
+
+SUM(): laskee ryhmälle yhteissumman (tässä: paljonko kukin asiakas on käyttänyt rahaa)
+
+HAVING: suodattaa ryhmiä aggregaattifunktion (SUM, AVG jne.) perusteella
+(ei käytetä WHERE vaan HAVING aggregaattien kanssa!)
 
 
 
