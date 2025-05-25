@@ -106,7 +106,7 @@ FROM Tuotteet
 ORDER BY id, nimi, varastotilanne; 
 
 
---============================================================
+--=======================================================================================
 
 -- SQL AND Operator (AND vs OR)
 -- WHERE- ja AND-operaattorit ovat osa SQL-kyselyiden ehtoja, joiden avulla voit suodattaa tietoa tietokannasta.
@@ -166,7 +166,7 @@ AND (osoite LIKE '%USA%' OR osoite LIKE '%Germany%');
 /* Pieni huomoina koskien yhtäkuin = merkkiä ei tue % jokerimerkkiä - tämä ei palauta odotettujen tulosta siksi tulee ratkaisuksi ja käyttäen "LIKE" - jokerinmerkkin kanssa. Jos esim. just kaupunki ja maa (New York, USA) siksi vertailumerkkin tulee (=) ei toimi, vaan käyttäen %USA%
 */
 
---==========================================
+--================================================================================================
 -- SQL OR operaattori
 
 -- Where voidaan sisältyä OR operaattoria
@@ -260,7 +260,7 @@ WHERE NOT id > 5;
 SELECT * FROM Asiakkaat 
 WHERE NOT id < 5; 
 
--- ===========================
+-- =================================================================================
 -- SQL INSERT INTO Statement
 
 -- INSERT INTO - lauseketta käytetään uusien tietuiden lisäämistä taulukkoon
@@ -296,4 +296,47 @@ VALUES ('Gilbert Tate', 23634.87, 'gilbert@example.com', 'Australia', '1996-3-04
 -- sama homma jos sarake puuttuu tai tietty tieto, se sitten menee NULL, mutta silti menee läpi ja esim. rekisteröitymis_pvm jätettäisiin välistä ja huomioina se sitten id lisääntyy automaattisesti, koska taulukossa on "AUTO_INCREMENT" käytössä. Tarkoittaa id-sarake lisäääntyy automaattisesti, kun uusi rivi lisätään.
 INSERT INTO Asiakkaat (nimi, sähköposti, osoite, saldo) 
 VALUES ('Nicole Colombi', 'nicole@example.com', 'Italy', 9999.12);
+
+--=================================================================================
+-- Test for NULL Values
+
+-- NULL-arvojen käsittely SQL:ssä toimii eri tavalla kuin normaalit vertailuoperaattorit.
+-- NULL ei ole sama kuin tyhjä arvo – se tarkoittaa tuntematonta tai puuttuvaa arvoa.
+-- = ja <> eivät tunnista NULL-arvoja, koska SQL käsittelee NULL-arvoja eri tavalla kuin tavalliset luvut tai merkkijonot.
+
+
+-- tarkistettaan Tuotteet taulukosta, missä hinta on NULL 
+SELECT * FROM Tuotteet 
+WHERE hinta IS NULL; 
+
+
+-- tarkistettaan Tuotteet-taulukosta, missä hinta ei ole NULL - se tuo mukaan jos "kategoria_id" on NULL pätee niitäkin ja "varastotilanne" jos sekin NULL.
+SELECT * FROM Tuotteet 
+WHERE hinta IS NOT NULL; 
+
+
+/*jos käyttää erikoismerkin <> ja = näiden osalta se ei toimi ja mallina:
+
+SELECT * FROM Tuotteet WHERE hinta = NULL;  -- Ei toimi!
+SELECT * FROM Tuotteet WHERE hinta <> NULL; -- Ei toimi!
+*/
+
+-- Testauksena halutaan näyttää tuotteet joiden hinta on null tai hinta on pienempi kuin 50
+SELECT * FROM Tuotteet 
+WHERE hinta IS NULL OR hinta < 50;
+
+
+-- sama pätee varastotilanne jos on NULL tai jos on yli 100 kpl:ta
+SELECT * FROM Tuotteet 
+WHERE Tuotteet.varastotilanne IS NULL OR Tuotteet.varastotilanne > 100;
+
+
+-- haettaan joku Tuotteen taulukosta, joka hinta on null ja halutaan kategoria id on 1. 
+SELECT * FROM Tuotteet 
+WHERE hinta IS NULL AND kategoria_id = 1;
+
+
+-- tässä esim. haettaan Tuotteen taulukosta, joka hinta ei ole NULL ja varastotilanne on NULL.
+SELECT * FROM Tuotteet 
+WHERE hinta IS NOT NULL AND varastotilanne IS NULL; 
 
