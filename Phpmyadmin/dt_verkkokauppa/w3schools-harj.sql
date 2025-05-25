@@ -464,3 +464,51 @@ LIMIT 5;
 SELECT * FROM Tuotteet 
 ORDER BY hinta ASC 
 LIMIT 5; 
+
+-- ===============================================
+
+-- SQL TOP, LIMIT, FETCH FIRST or ROWNUM Clause
+
+/* SQL SELECT TOP Clause
+SELECT TOP -lauseke käytetään SQL:ssä rajaamaan palautettavien rivien määrää. Tämä on hyödyllistä etenkin suurissa taulukoissa, joissa on tuhansia rivejä, sillä hakemalla vain tarvittavat tiedot voi parantaa suorituskykyä.
+
+SELECT TOP toimii vain SQL Server -tietokannoissa. Jos käytät esimerkiksi MySQL, PostgreSQL tai SQLite - täyttyy käyttää LIMIT lauseketta TOP sanan sijaan.
+
+Teoriassa tässä on mukaan melko samankaltaisia komentoja, SQL SELECT TOP -lauseke on syntaksi, jota käytetään erityisesti SQL Serverissä, MS Accessissa, Oracle SQL, MySQL/ POstreSQL / MariaDB ja SQLite rajaamaan palautettujen rivien määrää. Mutta eri tietokannat käyttävät eri tapoja toteuttaa sama toiminnallisuus.
+
+| SQL-järjestelmä | Rajaaminen (SELECT TOP vastaava) |
+|----------------|--------------------------------|
+| **SQL Server / MS Access** | `SELECT TOP 5 * FROM Taulukko;` |
+| **MySQL / PostgreSQL / MariaDB** | `SELECT * FROM Taulukko LIMIT 5;` |
+| **Oracle SQL** | `SELECT * FROM Taulukko FETCH FIRST 5 ROWS ONLY;` |
+| **SQLite** | `SELECT * FROM Taulukko LIMIT 5;` |
+
+*/
+
+SELECT * FROM Tuotteet LIMIT 5;
+
+
+-- LIMIT 
+-- tämä hakee 5 ensimmäistä riviä Tuotteen taulukosta, josta hakee hinnan mukaan suurimmasta pienempään , ei väliä id:stä mitä hintoja on onkaan 1-30 väliltä & kuitenkin 5 kalleinta tuotetta.
+SELECT * FROM Tuotteet 
+ORDER BY hinta DESC 
+LIMIT 5;
+
+
+
+
+-- sama tässäkin haettaisiin kaikki minimi hinnat, ja jos on NULL - nekin lasketaan mukaan
+SELECT * FROM Tuotteet 
+ORDER BY hinta ASC 
+LIMIT 5; 
+
+
+-- haettaan asiakkaan listasta rajoitettu 3 kpl:ta jotka osoite sijaitsee Suomi.
+SELECT * FROM Asiakkaat
+WHERE osoite = 'Suomi' 
+LIMIT 3; 
+
+
+-- haettaan raja maasta, italiasssa asiakkaan taulukossa oli vain 1, mutta saksassa muutama, mutta kuitekin haluttaa jomppaa kumppaa
+SELECT * FROM Asiakkaat 
+WHERE osoite = 'Italy' OR osoite = 'Germany' LIMIT 3; 
