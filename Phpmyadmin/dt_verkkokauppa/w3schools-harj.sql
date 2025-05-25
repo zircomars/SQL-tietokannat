@@ -430,4 +430,12 @@ SET hinta = 50.99, varastotilanne = 80
 WHERE id IN (4, 10);
 
 
+-- ===============================================
+-- SQL DELETE Statement
+-- DELETE - ehto tarkoittaa tietojen tai yksittäisen taulukkon sisällön poistoa
 
+DELETE FROM table_name WHERE condition;
+
+-- leikisti poistettaisiin tämä; 31 	Farkkutakki 	89.99 	2 	NULL 
+-- huomoina tämä PHPmyadmin tietokanta kysyi kertalleen (yhteenvetona) että haluatko oikeasti poistaa tämän id:nsä niin vahvistettiin ja tarkistettuna tämä id 31 farkkutakki on poistunut Tuotteen-taulukon alta
+DELETE FROM Tuotteet WHERE id = 31; 
