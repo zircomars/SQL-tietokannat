@@ -225,6 +225,27 @@ LEFT JOIN Tilaukset ON Asiakkaat.id = Tilaukset.asiakas_id
 WHERE Tilaukset.id IS NULL;
 ```
 
+---
+
+# Taulukkon muutos 
+
+Siis tämän komento tarkoittaa että muutan yhen taulukkon sarakkeen tietoa, et esim. 'osoitteesta' --> 'maaksi'. Mutta haluan kumota toi kaupunki pois, ja säilyttää maan nimen osiksi, sitten huomioina muut datat säilyvät entuudestaan.
+
+- `SUBSTRING_INDEX(osoite, ', ', -1)` muokkaa vain hakutulosta, ei alkuperäistä tietoa.
+
+```
+SELECT id, nimi, sähköposti, 
+SUBSTRING_INDEX(osoite, ', ', -1) AS maa, 
+rekisteröitymis_pvm, saldo 
+FROM Asiakkaat;
+```
+
+![alt text](./Harj1/11.png)
+
+![alt text](./Harj1/12.png)
+
+
+
 
 
 
