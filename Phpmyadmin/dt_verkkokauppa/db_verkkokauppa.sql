@@ -145,7 +145,6 @@ INSERT INTO `Asiakkaat` (`id`, `nimi`, `sähköposti`, `osoite`, `rekisteröitym
 (124, 'Elise Verhoeven', 'elise@example.com', 'Antwerp, Belgium', '1991-08-14', 38916.38),
 (125, 'Nathan Dewaele', 'nathan2@example.com', 'Ghent, Belgium', '2005-12-09', 26382.71);
 
-
 -- Maksutapojen lisääminen
 INSERT INTO Maksutavat (tapa, kuvaus) VALUES 
 ('Kortti', 'Luotto- tai pankkikortti'),
