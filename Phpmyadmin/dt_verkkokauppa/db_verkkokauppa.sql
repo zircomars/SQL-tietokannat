@@ -78,25 +78,35 @@ INSERT INTO Kategoriat (nimi) VALUES
 ('Kodin tarvikkeet');
 
 -- Tuotteiden lisääminen
-INSERT INTO Tuotteet (nimi, hinta, kategoria_id, varastotilanne) VALUES 
-('Älypuhelin', 599.99, 1, 50),
-('Kannettava tietokone', 1299.99, 1, 20),
-('T-paita', 19.99, 2, 150),
-('Juoksukengät', 89.99, 4, 45),
-('Romaani', 12.99, 3, 70),
-('Keittiön veitsisetti', 39.99, 5, 30),
-('Bluetooth-kuulokkeet', 79.99, 1, 75),
-('Urheilutakki', 119.99, 2, 40),
-('Pelihiiri', 49.99, 1, 60),
-('Tabletti', 399.99, 1, 35),
-('Farkut', 59.99, 2, 80),
-('Juomapullo', 14.99, 4, 120),
-('Novellikokoelma', 17.99, 3, 45),
-('Grillipannu', 89.99, 5, 25),
-('Langaton kaiutin', 129.99, 1, 50),
-('Sadetakki', 79.99, 2, 55),
-('Salikengät', 99.99, 4, 40),
-('Kasviskokkikirja', 22.99, 3, 30);
+INSERT INTO `Tuotteet` (`id`, `nimi`, `hinta`, `kategoria_id`, `varastotilanne`) VALUES
+(1, 'Älypuhelin', 599.99, 1, 50),
+(2, 'Kannettava tietokone', 1299.99, 1, 20),
+(3, 'T-paita', 19.99, 2, 150),
+(4, 'Juoksukengät', 89.99, 4, 45),
+(5, 'Romaani', 12.99, 3, 70),
+(6, 'Keittiön veitsisetti', 39.99, 5, 30),
+(7, 'Bluetooth-kuulokkeet', 79.99, 1, 75),
+(8, 'Urheilutakki', 119.99, 2, 40),
+(9, 'Pelihiiri', 49.99, 1, 60),
+(10, 'Tabletti', 399.99, 1, 35),
+(11, 'Farkut', 59.99, 2, 0),
+(12, 'Juomapullo', 14.99, 4, 120),
+(13, 'Novellikokoelma', 17.99, 3, 45),
+(14, 'Grillipannu', 89.99, 5, 25),
+(15, 'Langaton kaiutin', 129.99, 1, 50),
+(16, 'Sadetakki', 79.99, 2, 55),
+(17, 'Salikengät', 99.99, 4, 40),
+(18, 'Kasviskokkikirja', 22.99, 3, 30),
+(19, 'Älykello', NULL, 1, 45),
+(20, 'Työtuoli', 249.99, NULL, 30),
+(21, 'Sähköpyörä', NULL, 4, NULL),
+(22, 'Käsipainosetti', 79.99, 4, 20),
+(23, 'Led-lamppu', 9.99, NULL, 50),
+(24, 'Kirjahylly', 189.99, 5, 12),
+(25, 'Ulkoilu-reppu', NULL, 2, 25),
+(26, 'Lautapeli', 39.99, NULL, NULL),
+(27, 'Mikroaaltouuni', 10.99, NULL, 10),
+(28, 'Lämpöpaita', 29.99, NULL, 3);
 
 
 
