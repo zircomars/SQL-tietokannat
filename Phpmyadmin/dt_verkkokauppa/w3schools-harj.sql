@@ -439,3 +439,28 @@ DELETE FROM table_name WHERE condition;
 -- leikisti poistettaisiin tämä; 31 	Farkkutakki 	89.99 	2 	NULL 
 -- huomoina tämä PHPmyadmin tietokanta kysyi kertalleen (yhteenvetona) että haluatko oikeasti poistaa tämän id:nsä niin vahvistettiin ja tarkistettuna tämä id 31 farkkutakki on poistunut Tuotteen-taulukon alta
 DELETE FROM Tuotteet WHERE id = 31; 
+
+-- ===============================================
+
+-- SQL TOP, LIMIT, FETCH FIRST or ROWNUM Clause
+
+--  SQL SELECT TOP Clause
+-- SELECT TOP -lauseke käytetään SQL:ssä rajaamaan palautettavien rivien määrää. Tämä on hyödyllistä etenkin suurissa taulukoissa, joissa on tuhansia rivejä, sillä hakemalla vain tarvittavat tiedot voi parantaa suorituskykyä.
+
+-- SELECT TOP toimii vain SQL Server -tietokannoissa. Jos käytät esimerkiksi MySQL, PostgreSQL tai SQLite - täyttyy käyttää LIMIT lauseketta TOP sanan sijaan.
+
+SELECT * FROM Tuotteet LIMIT 5;
+
+
+
+-- tämä hakee 5 ensimmäistä riviä Tuotteen taulukosta, josta hakee hinnan mukaan suurimmasta pienempään , ei väliä id:stä mitä hintoja on onkaan 1-30 väliltä & kuitenkin 5 kalleinta tuotetta.
+SELECT * FROM Tuotteet 
+ORDER BY hinta DESC 
+LIMIT 5;
+
+
+
+-- sama tässäkin haettaisiin kaikki minimi hinnat, ja jos on NULL - nekin lasketaan mukaan
+SELECT * FROM Tuotteet 
+ORDER BY hinta ASC 
+LIMIT 5; 
