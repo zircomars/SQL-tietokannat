@@ -340,3 +340,94 @@ WHERE hinta IS NULL AND kategoria_id = 1;
 SELECT * FROM Tuotteet 
 WHERE hinta IS NOT NULL AND varastotilanne IS NULL; 
 
+
+
+--========================================
+-- SQL UPDATE Statement
+
+/*
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+*/
+
+
+-- Kokeillaan päivittää tämä osuus BEFORE: id: 5 nimi: Romaani hinta:12.99 kategoria_id: 3 varastotilanne: 70
+-- esim. muutettun jälkeen se muuttuu samantien. Huomoina tämä pitää mennä taulukkon nimetyn tekijän mukaan.
+UPDATE Tuotteet
+SET nimi = 'novelli', varastotilanne = '80'
+WHERE id = 5;
+
+SELECT * FROM Tuotteet;
+
+
+
+-- UPDATE Multiple Records
+-- tarkoittaa, että päivität useita rivejä kerralla, jos ne täyttävät tietyt ehdot, ja tämä ei vaikuta kaikkiin riveihin automaattisesti, vaan niihin, jotka vastaa WHERE ehtoa
+-- kokeillaan tätä: id: 16 nimi: Sadetakki hinta 79.99 kategoria_id: 2 varastotilanne: 55
+
+-- Otettaan kaikki kategoria id = 1 listaus
+SELECT * FROM Tuotteet 
+WHERE kategoria_id = 1; 
+
+
+/*  BEFORE:
+    Edit Edit 	Copy Copy 	Delete Delete   1 	Älypuhelin 	            599.99 	1 	50
+	Edit Edit 	Copy Copy 	Delete Delete 	2 	Kannettava tietokone 	1299.99 1 	20
+	Edit Edit 	Copy Copy 	Delete Delete 	7 	Bluetooth-kuulokkeet 	79.99 	1 	75
+	Edit Edit 	Copy Copy 	Delete Delete 	9 	Pelihiiri 	            49.99 	1 	60
+	Edit Edit 	Copy Copy 	Delete Delete 	10 	Tabletti 	            399.99 	1 	35
+	Edit Edit 	Copy Copy 	Delete Delete 	15 	Langaton kaiutin 	    129.99 	1 	50
+	Edit Edit 	Copy Copy 	Delete Delete 	19 	Älykello 	            NULL 	1 	45
+*/
+
+-- jos hinta on NULL alunperin, ja tekee update muutoksensa niin tämä ei muutu sitä, koska NULL ei ole arvo, eikä sitä voi kertoa millään arvolla
+
+
+-- Nyt tehdään muutokset
+UPDATE Tuotteet
+SET hinta = hinta * 1.10 -- korotettaan hintaan 10%
+WHERE kategoria_id = 1; -- vain kateogirat 1 tuotteet
+
+SELECT * FROM Tuotteet
+WHERE kategoria_id = 1;
+
+/* AFTER:
+ 	Edit Edit 	Copy Copy 	Delete Delete 	1 	Älypuhelin 	            659.99 	1 	50
+	Edit Edit 	Copy Copy 	Delete Delete 	2 	Kannettava tietokone 	1429.99 	1 	20
+	Edit Edit 	Copy Copy 	Delete Delete 	7 	Bluetooth-kuulokkeet 	87.99 	1 	75
+	Edit Edit 	Copy Copy 	Delete Delete 	9 	Pelihiiri 	            54.99 	1 	60
+	Edit Edit 	Copy Copy 	Delete Delete 	10 	Tabletti 	            439.99 	1 	35
+	Edit Edit 	Copy Copy 	Delete Delete 	15 	Langaton kaiutin 	    142.99 	1 	50
+	Edit Edit 	Copy Copy 	Delete Delete 	19 	Älykello 	            NULL 	1 	45
+*/
+
+-- sama pätee oiskin hinta niin muutettaisiin se NULL:iksi
+-- Kokeillaan tätä BEFORE: 11 	Farkut 	59.99 	2 	0
+-- eli muutettan tämä farkku hinnasto NULL:iks ja missä sen id on 11
+
+UPDATE Tuotteet
+SET hinta = NULL
+WHERE id = 11;
+
+SELECT * FROM Tuotteet
+WHERE id = 11;
+
+
+-- kokeillaan yksittäistä tuotetta hinnan muutosta BEFOFRE - 4 	Juoksukengät 	89.99 	4 	45
+-- kokeillaan lisätä varastotilannetta, mutta siihen pitää ennen sitä laittaa pilku, ja ei käytetä AND-operaattoria
+UPDATE Tuotteet
+SET hinta = 50.99, varastotilanne = 80
+WHERE id = 4;
+
+SELECT * FROM Tuotteet
+WHERE id = 4;
+
+
+-- sama pätee jos on useita tuoteitta, et niiden hinnat ja varastotilanne muuttu ettei tarvitse jokaista yksittäistä syötellä, varmistettaan id sitten pilku id numero ja jne, sekä jos on useampi menee näin "WHERE id IN (2, 5, 8, 12);"
+UPDATE Tuotteet 
+SET hinta = 50.99, varastotilanne = 80 
+WHERE id IN (4, 10);
+
+
+
