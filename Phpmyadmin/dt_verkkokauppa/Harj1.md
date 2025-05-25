@@ -244,6 +244,14 @@ FROM Asiakkaat;
 ![alt text](./Harj1/11.png)
 
 ## AFTER (alempi kuva)
+**HUOMIOINA** <br>
+Äskeittäisestä tehdyt muutoksesta niin kannattaa päivittää samantien ja komennolla, koska ilman tätä Asiakkaan taulukkon päiviystä, muuten se ei tee sitä tehtyä muutosta.
+
+```
+UPDATE Asiakkaat 
+SET osoite = SUBSTRING_INDEX(osoite, ', ', -1);
+```
+
 ![alt text](./Harj1/12.png)
 
 
