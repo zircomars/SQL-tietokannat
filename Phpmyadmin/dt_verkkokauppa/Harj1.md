@@ -240,8 +240,10 @@ rekisteröitymis_pvm, saldo
 FROM Asiakkaat;
 ```
 
+## BEFORE (alempi kuva)
 ![alt text](./Harj1/11.png)
 
+## AFTER (alempi kuva)
 ![alt text](./Harj1/12.png)
 
 
