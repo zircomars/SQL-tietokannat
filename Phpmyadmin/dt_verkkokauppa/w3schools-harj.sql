@@ -260,5 +260,40 @@ WHERE NOT id > 5;
 SELECT * FROM Asiakkaat 
 WHERE NOT id < 5; 
 
+-- ===========================
+-- SQL INSERT INTO Statement
 
+-- INSERT INTO - lauseketta käytetään uusien tietuiden lisäämistä taulukkoon
+
+/*
+INSERT INTO table_name (column1, column2, column3, ...)
+VALUES (value1, value2, value3, ...);
+
+INSERT INTO table_name
+VALUES (value1, value2, value3, ...);
+
+*/
+
+-- eli tarkoittaa käyttäjän tai taulukon alle lisätään jotakin tietoa, esim. tähän Asiakkaan taulukon alle lisätään uusi henkilö tai jokin ominaisuus/uusi tieto. 
+-- INSERT INTO ... VALUES-lauseke kertoo mihin taulukkoon haluat lisätä tietoa sekä mitkä arvot lisätään.
+
+
+-- tässä pitää olla tarkanna, mitä tietoja tarvittaan jotta syöte menee oikein.
+INSERT INTO Asiakkaat (id, nimi, sähköposti, osoite, rekisteröitymis_pvm, saldo)
+VALUES (21, 'Olivia Mäkinen', 'olivia2@example.com', 'Suomi', '1999-04-15', 3456.67);
+
+
+-- sama pätee jos sarakkeista ei ole erikseen määritelty (tämä toimii hyvinkin nopeammin)
+INSERT INTO Asiakkaat 
+VALUES (22, 'Leon Shawn', 'leon@example.com', 'UK', '1998-05-13', 44132.84);
+
+
+-- entä jos INSERT INTO - lausekeessa sulkeiden sisällä ominaisuudet menee ristiin. SQL edellyttää, että arvojen järjestys vastaa sarakkeiden järjestystä.. (tämä menee läpi)
+INSERT INTO Asiakkaat (nimi, saldo, sähköposti, osoite, rekisteröitymis_pvm, id) 
+VALUES ('Gilbert Tate', 23634.87, 'gilbert@example.com', 'Australia', '1996-3-04', 23);
+
+
+-- sama homma jos sarake puuttuu tai tietty tieto, se sitten menee NULL, mutta silti menee läpi ja esim. rekisteröitymis_pvm jätettäisiin välistä ja huomioina se sitten id lisääntyy automaattisesti, koska taulukossa on "AUTO_INCREMENT" käytössä. Tarkoittaa id-sarake lisäääntyy automaattisesti, kun uusi rivi lisätään.
+INSERT INTO Asiakkaat (nimi, sähköposti, osoite, saldo) 
+VALUES ('Nicole Colombi', 'nicole@example.com', 'Italy', 9999.12);
 
