@@ -206,7 +206,23 @@ SELECT * FROM Tuotteet
 WHERE kategoria_id NOT IN (3, 5) OR kategoria_id = 4;
 
 
+-- NOT LIKE - jossa ei ole alkuun ja eikä päättyyn 'e' kirjainta, esim eero, dnaiel, jessica
+SELECT * FROM Asiakkaat 
+WHERE Asiakkaat.nimi NOT LIKE '%e%'; 
 
+
+-- haettaan joiden nimi ei sisällä 'e' eikä 'u'
+/*
+| Rakenne | Selitys                                  | Esimerkki hakutulos           |
+| ------- | ---------------------------------------- | ----------------------------- |
+| `'a%'`  | Alkaa **a**:lla                          | Anna, Aleksi, Antti           |
+| `'%a'`  | Päättyy **a**:han                        | Laura, Sofia, Elina           |
+| `'%a%'` | **Sisältää** a\:n missä tahansa kohdassa | Paula, Jari, Sami, Anna, etc. |
+| `'a'`   | On **tasan** yksi merkki: "a"            | vain jos arvo on tasan "a"    |
+*/
+SELECT * FROM Asiakkaat 
+WHERE Asiakkaat.nimi NOT LIKE '%e%'
+AND nimi NOT LIKE '%u%'; 
 
 
 
