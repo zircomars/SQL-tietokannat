@@ -225,6 +225,40 @@ WHERE Asiakkaat.nimi NOT LIKE '%e%'
 AND nimi NOT LIKE '%u%'; 
 
 
+SELECT * FROM Asiakkaat 
+WHERE Asiakkaat.nimi NOT LIKE '%e%'
+AND nimi NOT LIKE '%u%'; 
+
+
+-- NOT BETWEEN , joka ei ole jonkin väliltä
+-- esim. haettaan saldo joka ei ole 10k - ja 40k väliltä, eli tulostuu alle 10k ja yli 40k määrää
+SELECT * FROM Asiakkaat 
+WHERE saldo NOT BETWEEN 10000 AND 40000; 
+
+
+-- haettaan id joka ei ole 5 ja 20 väliltä
+SELECT * FROM Asiakkaat
+WHERE id NOT BETWEEN 5 AND 120;
+
+
+
+-- NOT IN
+-- nimettään kielteisesti ettei haluta näitä kohteita Suomi, UK, Japan, USA - tulostettua taulukosta, eli nimetyt maat pois
+SELECT * FROM Asiakkaat 
+WHERE osoite NOT IN ('Suomi', 'UK' , 'Japan', 'USA'); 
+
+
+
+-- NOT Greather than
+-- haettaan id joka ei ole suurempi kuin kuin 5
+SELECT * FROM Asiakkaat 
+WHERE NOT id > 5; 
+
+
+-- NOT Less than
+-- id joka on vähintään 5
+SELECT * FROM Asiakkaat 
+WHERE NOT id < 5; 
 
 
 
