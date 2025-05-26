@@ -430,6 +430,15 @@ SET hinta = 50.99, varastotilanne = 80
 WHERE id IN (4, 10);
 
 
+--lisätyn "Saldo" sarakkeen jälkeen niin päivitettään saldo satunnaisesti ja saldo voi olla esim. rahansakin
+UPDATE Asiakkaat
+SET saldo = ROUND(RAND() * 50000, 2);
+
+-- päivitettään asiakkaiden saldo lisäämällä 10% jos saldo on alle 5000
+UPDATE Asiakkaat SET saldo = saldo * 1.1 
+WHERE saldo < 5000;
+
+
 -- ===============================================
 -- SQL DELETE Statement
 -- DELETE - ehto tarkoittaa tietojen tai yksittäisen taulukkon sisällön poistoa
