@@ -1,117 +1,45 @@
--- Tämä sisältää: ja POHJA
--- ✔ Tietokannan luomisen ✔ Taulujen rakenteet ja rajoitteet ✔ Indeksit ja viiteavaimet ✔ Alustavat tiedot kategorioille, tuotteille, asiakkaille ja tilauksille ✔ Tilauksen rivit, jotka yhdistävät tuotteet ja tilaukset
--- tässä tietokannan nimi (database) on "Verkkokauppa" ja "Asiakkaat", "Kategoriat", "Maksutavat", "Tilauksen_rivit", "Tilaukset" ja "Tuotteet" ovat tauluja (tables)
-CREATE DATABASE verkkokauppa;
-USE verkkokauppa;
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: May 26, 2025 at 04:10 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
--- Kategoriat-taulu: sisältää tuotteiden eri kategoriat (esim. elektroniikka, vaatteet)
-CREATE TABLE Kategoriat (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nimi VARCHAR(255) NOT NULL -- Kategorian nimi, esim. "Elektroniikka"
-);
-
--- Tuotteet-taulu: sisältää tietoa myytävistä tuotteista
-CREATE TABLE Tuotteet (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nimi VARCHAR(255) NOT NULL, -- Tuotteen nimi, esim. "Puhelin"
-    hinta DECIMAL(10,2) NOT NULL, -- Tuotteen hinta euroina (esim. 599.99)
-    kategoria_id INT, -- Viittaus tuotteen kategoriaan
-    varastotilanne INT, -- Kuinka monta kappaletta tuotetta on varastossa
-    INDEX (nimi), -- Nopeuttaa hakemista tuotteen nimellä
-    INDEX (kategoria_id), -- Nopeuttaa hakemista kategorian mukaan
-    FOREIGN KEY (kategoria_id) REFERENCES Kategoriat(id) -- Viittaa Kategoriat-tauluun
-);
-
--- Asiakkaat-taulu: sisältää rekisteröityneet verkkokaupan asiakkaat
-CREATE TABLE Asiakkaat (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nimi VARCHAR(255) NOT NULL, -- Asiakkaan nimi, esim. "Matti Meikäläinen"
-    sähköposti VARCHAR(255) NOT NULL UNIQUE, -- Uniikki sähköpostiosoite
-    osoite TEXT, -- Asiakkaan osoite
-    rekisteröitymis_pvm DATE, -- Päivämäärä, jolloin asiakas rekisteröityi
-    saldo DECIMAL(10,2) NOT NULL DEFAULT 0.00 -- Asiakkaan tilillä oleva saldo, oletusarvo 0.00
-);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
 
--- Maksutavat-taulu: sisältää eri maksuvaihtoehdot
-CREATE TABLE Maksutavat (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    tapa VARCHAR(255) NOT NULL, -- Maksutapa, esim. "Kortti"
-    kuvaus TEXT -- Lisätiedot maksutavasta, esim. "Luotto- tai pankkikortti"
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- Tilaukset-taulu: sisältää asiakkaiden tekemät tilaukset
-CREATE TABLE Tilaukset (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    asiakas_id INT NOT NULL, -- Viittaus asiakkaaseen, joka tilauksen teki
-    tilaus_pvm DATE NOT NULL, -- Päivämäärä, jolloin tilaus tehtiin
-    toimitus_status ENUM('käsittelyssä', 'lähetetty', 'toimitettu') NOT NULL, -- Tilauksen tila
-    maksutapa_id INT NOT NULL, -- Viittaus maksutapaan
-    INDEX (asiakas_id), -- Nopeuttaa hakemista asiakkaan tilauksille
-    INDEX (maksutapa_id), -- Nopeuttaa hakemista maksutavan mukaan
-    FOREIGN KEY (asiakas_id) REFERENCES Asiakkaat(id), -- Viittaa Asiakkaat-tauluun
-    FOREIGN KEY (maksutapa_id) REFERENCES Maksutavat(id) -- Viittaa Maksutavat-tauluun
-);
+--
+-- Database: `verkkokauppa`
+--
 
--- Tilauksen_rivit-taulu: sisältää yksittäisten tilausten tuotteet
-CREATE TABLE Tilauksen_rivit (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    tilaus_id INT NOT NULL, -- Viittaus tilaukseen
-    tuote_id INT NOT NULL, -- Viittaus tilattuun tuotteeseen
-    määrä INT NOT NULL, -- Kuinka monta kappaletta tuotetta tilattiin
-    yhteishinta DECIMAL(10,2) NOT NULL, -- Kokonaishinta (määrä * tuotteen hinta)
-    INDEX (tilaus_id), -- Nopeuttaa hakemista tilauksen mukaan
-    INDEX (tuote_id), -- Nopeuttaa hakemista tuotteen mukaan
-    FOREIGN KEY (tilaus_id) REFERENCES Tilaukset(id), -- Viittaa Tilaukset-tauluun
-    FOREIGN KEY (tuote_id) REFERENCES Tuotteet(id) -- Viittaa Tuotteet-tauluun
-);
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `Asiakkaat`
+--
 
+CREATE TABLE `Asiakkaat` (
+  `id` int(11) NOT NULL,
+  `nimi` varchar(255) NOT NULL,
+  `sähköposti` varchar(255) NOT NULL,
+  `osoite` text DEFAULT NULL,
+  `rekisteröitymis_pvm` date DEFAULT NULL,
+  `saldo` decimal(10,2) NOT NULL DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Kategorioiden lisääminen
+--
+-- Dumping data for table `Asiakkaat`
+--
 
-INSERT INTO Kategoriat (nimi) VALUES 
-('Elektroniikka'),
-('Vaatteet'),
-('Kirjat'),
-('Urheilu'),
-('Kodin tarvikkeet');
-
--- Tuotteiden lisääminen
-INSERT INTO `Tuotteet` (`id`, `nimi`, `hinta`, `kategoria_id`, `varastotilanne`) VALUES
-(1, 'Älypuhelin', 599.99, 1, 50),
-(2, 'Kannettava tietokone', 1299.99, 1, 20),
-(3, 'T-paita', 19.99, 2, 150),
-(4, 'Juoksukengät', 89.99, 4, 45),
-(5, 'Romaani', 12.99, 3, 70),
-(6, 'Keittiön veitsisetti', 39.99, 5, 30),
-(7, 'Bluetooth-kuulokkeet', 79.99, 1, 75),
-(8, 'Urheilutakki', 119.99, 2, 40),
-(9, 'Pelihiiri', 49.99, 1, 60),
-(10, 'Tabletti', 399.99, 1, 35),
-(11, 'Farkut', 59.99, 2, 0),
-(12, 'Juomapullo', 14.99, 4, 120),
-(13, 'Novellikokoelma', 17.99, 3, 45),
-(14, 'Grillipannu', 89.99, 5, 25),
-(15, 'Langaton kaiutin', 129.99, 1, 50),
-(16, 'Sadetakki', 79.99, 2, 55),
-(17, 'Salikengät', 99.99, 4, 40),
-(18, 'Kasviskokkikirja', 22.99, 3, 30),
-(19, 'Älykello', NULL, 1, 45),
-(20, 'Työtuoli', 249.99, NULL, 30),
-(21, 'Sähköpyörä', NULL, 4, NULL),
-(22, 'Käsipainosetti', 79.99, 4, 20),
-(23, 'Led-lamppu', 9.99, NULL, 50),
-(24, 'Kirjahylly', 189.99, 5, 12),
-(25, 'Ulkoilu-reppu', NULL, 2, 25),
-(26, 'Lautapeli', 39.99, NULL, NULL),
-(27, 'Mikroaaltouuni', 10.99, NULL, 10),
-(28, 'Lämpöpaita', 29.99, NULL, 3);
-
-
-
-
--- Asiakkaiden lisääminen
 INSERT INTO `Asiakkaat` (`id`, `nimi`, `sähköposti`, `osoite`, `rekisteröitymis_pvm`, `saldo`) VALUES
 (1, 'Matti Meikäläinen', 'matti@example.com', 'Suomi', '1965-06-05', 6760.87),
 (2, 'Anna Virtanen', 'anna@example.com', 'Suomi', '1964-07-31', 29689.94),
@@ -160,38 +88,286 @@ INSERT INTO `Asiakkaat` (`id`, `nimi`, `sähköposti`, `osoite`, `rekisteröitym
 (126, 'Matti', '%example.com', 'UK', NULL, 18000.00),
 (128, 'Nicole Colombi', 'nicole@example.com', 'Italy', NULL, 9999.12);
 
--- Maksutapojen lisääminen
-INSERT INTO Maksutavat (tapa, kuvaus) VALUES 
-('Kortti', 'Luotto- tai pankkikortti'),
-('PayPal', 'Online-maksu'),
-('Tilisiirto', 'Suora pankkisiirto');
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `Kategoriat`
+--
 
--- Tilauksien lisääminen (vanhoja & uusia)
+CREATE TABLE `Kategoriat` (
+  `id` int(11) NOT NULL,
+  `nimi` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO Tilaukset (asiakas_id, tilaus_pvm, toimitus_status, maksutapa_id) VALUES 
-(1, '2023-12-15', 'toimitettu', 1), -- Vanha tilaus
-(2, '2025-05-10', 'lähetetty', 2), -- Uusi tilaus
-(3, '2025-05-20', 'käsittelyssä', 3), -- Uusi tilaus
-(4, '2024-08-25', 'toimitettu', 1), -- Vanha tilaus
-(5, '2025-04-01', 'toimitettu', 2), -- Uusi tilaus
-(6, '2023-07-30', 'lähetetty', 3), -- Vanha tilaus
-(7, '2024-09-14', 'käsittelyssä', 1), -- Uusi tilaus
-(8, '2025-05-21', 'lähetetty', 2), -- Uusi tilaus
-(9, '2023-11-18', 'toimitettu', 3), -- Vanha tilaus
-(10, '2024-06-05', 'käsittelyssä', 1); -- Uusi tilaus
+--
+-- Dumping data for table `Kategoriat`
+--
 
+INSERT INTO `Kategoriat` (`id`, `nimi`) VALUES
+(1, 'Elektroniikka'),
+(2, 'Vaatteet'),
+(3, 'Kirjat'),
+(4, 'Urheilu'),
+(5, 'Kodin tarvikkeet');
 
+-- --------------------------------------------------------
 
--- Tilauksen tuotteiden lisääminen
-INSERT INTO Tilauksen_rivit (tilaus_id, tuote_id, määrä, yhteishinta) VALUES 
-(1, 1, 1, 599.99), -- Matti osti puhelimen
-(1, 5, 2, 25.98), -- Matti osti kaksi kirjaa
-(2, 2, 1, 1299.99), -- Anna osti kannettavan tietokoneen
-(3, 4, 1, 89.99), -- Jari osti juoksukengät
-(3, 8, 1, 119.99), -- Jari osti urheilutakin
-(4, 7, 1, 79.99), -- Paula osti Bluetooth-kuulokkeet
-(5, 3, 3, 59.97), -- Sami osti kolme T-paitaa
-(6, 6, 1, 39.99), -- Laura osti veitsisetin keittiöön
-(7, 1, 1, 599.99), -- Tomi osti puhelimen
-(8, 7, 2, 159.98); -- Riikka osti kaksi kuuloketta
+--
+-- Table structure for table `Maksutavat`
+--
+
+CREATE TABLE `Maksutavat` (
+  `id` int(11) NOT NULL,
+  `tapa` varchar(255) NOT NULL,
+  `kuvaus` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Maksutavat`
+--
+
+INSERT INTO `Maksutavat` (`id`, `tapa`, `kuvaus`) VALUES
+(1, 'Kortti', 'Luotto- tai pankkikortti'),
+(2, 'PayPal', 'Online-maksu'),
+(3, 'Tilisiirto', 'Suora pankkisiirto');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Tilauksen_rivit`
+--
+
+CREATE TABLE `Tilauksen_rivit` (
+  `id` int(11) NOT NULL,
+  `tilaus_id` int(11) NOT NULL,
+  `tuote_id` int(11) NOT NULL,
+  `määrä` int(11) NOT NULL,
+  `yhteishinta` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Tilauksen_rivit`
+--
+
+INSERT INTO `Tilauksen_rivit` (`id`, `tilaus_id`, `tuote_id`, `määrä`, `yhteishinta`) VALUES
+(1, 1, 1, 1, 599.99),
+(2, 1, 5, 2, 25.98),
+(3, 2, 2, 1, 1299.99),
+(4, 3, 4, 1, 89.99),
+(5, 3, 8, 1, 119.99),
+(6, 4, 7, 1, 79.99),
+(7, 5, 3, 3, 59.97),
+(8, 6, 6, 1, 39.99),
+(9, 7, 1, 1, 599.99),
+(10, 8, 7, 2, 159.98);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Tilaukset`
+--
+
+CREATE TABLE `Tilaukset` (
+  `id` int(11) NOT NULL,
+  `asiakas_id` int(11) DEFAULT NULL,
+  `tilaus_pvm` date NOT NULL,
+  `toimitus_status` varchar(50) DEFAULT NULL,
+  `maksutapa_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Tilaukset`
+--
+
+INSERT INTO `Tilaukset` (`id`, `asiakas_id`, `tilaus_pvm`, `toimitus_status`, `maksutapa_id`) VALUES
+(1, 1, '2023-12-15', 'toimitettu', 1),
+(2, 2, '2025-05-10', 'lähetetty', 2),
+(3, 3, '2025-05-20', 'käsittelyssä', 3),
+(4, 4, '2024-08-25', 'toimitettu', 1),
+(5, 5, '2025-04-01', 'toimitettu', 2),
+(6, 6, '2023-07-30', 'lähetetty', 3),
+(7, 7, '2024-09-14', 'käsittelyssä', 1),
+(8, 8, '2025-05-21', 'lähetetty', 2),
+(9, 9, '2023-11-18', 'toimitettu', 3),
+(10, 10, '2024-06-05', 'käsittelyssä', 1),
+(101, 11, '2001-05-14', 'Toimitettu', 1),
+(102, 12, '2003-09-21', 'Kadonnut', 2),
+(103, 15, '2007-06-11', 'Toimitettu', 3),
+(104, 16, '2010-08-05', 'Kadonnut', 1),
+(105, 18, '2012-12-24', 'Toimitettu', 2),
+(106, 20, '2015-03-17', 'Kadonnut', 3),
+(107, 21, '2018-07-29', 'Toimitettu', 1),
+(108, 22, '2019-04-22', 'Kadonnut', 2),
+(109, 105, '2021-01-10', 'Kadonnut', 3),
+(110, 106, '2022-06-03', 'Toimitettu', 1),
+(111, 107, '2023-09-15', 'Kadonnut', 2),
+(112, 108, '2024-02-28', 'Toimitettu', 3),
+(113, 109, '2024-11-05', 'Kadonnut', 1),
+(114, 110, '2025-03-19', 'Toimitettu', 2),
+(115, 111, '2025-05-26', 'Kadonnut', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Tuotteet`
+--
+
+CREATE TABLE `Tuotteet` (
+  `id` int(11) NOT NULL,
+  `nimi` varchar(255) NOT NULL,
+  `hinta` decimal(10,2) DEFAULT 0.00,
+  `kategoria_id` int(11) DEFAULT NULL,
+  `varastotilanne` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Tuotteet`
+--
+
+INSERT INTO `Tuotteet` (`id`, `nimi`, `hinta`, `kategoria_id`, `varastotilanne`) VALUES
+(1, 'Älypuhelin', 659.99, 1, 50),
+(2, 'Kannettava tietokone', 1429.99, 1, 20),
+(3, 'T-paita', 19.99, 2, 150),
+(4, 'Juoksukengät', 50.99, 4, 80),
+(5, 'novelli', 12.99, 3, 80),
+(6, 'Keittiön veitsisetti', 39.99, 5, 30),
+(7, 'Bluetooth-kuulokkeet', 87.99, 1, 75),
+(8, 'Urheilutakki', 119.99, 2, 40),
+(9, 'Pelihiiri', 54.99, 1, 60),
+(10, 'Tabletti', 439.99, 1, 35),
+(11, 'Farkut', NULL, 2, 0),
+(12, 'Juomapullo', 14.99, 4, 120),
+(13, 'Novellikokoelma', 17.99, 3, 45),
+(14, 'Grillipannu', 89.99, 5, 25),
+(15, 'Langaton kaiutin', 142.99, 1, 50),
+(16, 'Sadetakki', 79.99, 2, 55),
+(17, 'Salikengät', 99.99, 4, 40),
+(18, 'Kasviskokkikirja', 22.99, 3, 30),
+(19, 'Älykello', NULL, 1, 45),
+(20, 'Työtuoli', 249.99, NULL, 30),
+(21, 'Sähköpyörä', NULL, 4, NULL),
+(22, 'Käsipainosetti', 79.99, 4, 20),
+(23, 'Led-lamppu', 9.99, NULL, 50),
+(24, 'Kirjahylly', 189.99, 5, 12),
+(25, 'Ulkoilu-reppu', NULL, 2, 25),
+(26, 'Lautapeli', 39.99, NULL, NULL),
+(27, 'Mikroaaltouuni', 10.99, NULL, 10),
+(28, 'Lämpöpaita', 29.99, NULL, 3),
+(29, 'Retro kahvikuppi', NULL, 3, 40),
+(30, 'Langaton näppäimistö', 59.99, NULL, 25);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `Asiakkaat`
+--
+ALTER TABLE `Asiakkaat`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `sähköposti` (`sähköposti`);
+
+--
+-- Indexes for table `Kategoriat`
+--
+ALTER TABLE `Kategoriat`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Maksutavat`
+--
+ALTER TABLE `Maksutavat`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Tilauksen_rivit`
+--
+ALTER TABLE `Tilauksen_rivit`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tilaus_id` (`tilaus_id`),
+  ADD KEY `tuote_id` (`tuote_id`);
+
+--
+-- Indexes for table `Tilaukset`
+--
+ALTER TABLE `Tilaukset`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `asiakas_id` (`asiakas_id`),
+  ADD KEY `maksutapa_id` (`maksutapa_id`);
+
+--
+-- Indexes for table `Tuotteet`
+--
+ALTER TABLE `Tuotteet`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `nimi` (`nimi`),
+  ADD KEY `kategoria_id` (`kategoria_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `Asiakkaat`
+--
+ALTER TABLE `Asiakkaat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+
+--
+-- AUTO_INCREMENT for table `Kategoriat`
+--
+ALTER TABLE `Kategoriat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `Maksutavat`
+--
+ALTER TABLE `Maksutavat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `Tilauksen_rivit`
+--
+ALTER TABLE `Tilauksen_rivit`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `Tilaukset`
+--
+ALTER TABLE `Tilaukset`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+
+--
+-- AUTO_INCREMENT for table `Tuotteet`
+--
+ALTER TABLE `Tuotteet`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Tilauksen_rivit`
+--
+ALTER TABLE `Tilauksen_rivit`
+  ADD CONSTRAINT `Tilauksen_rivit_ibfk_1` FOREIGN KEY (`tilaus_id`) REFERENCES `Tilaukset` (`id`),
+  ADD CONSTRAINT `Tilauksen_rivit_ibfk_2` FOREIGN KEY (`tuote_id`) REFERENCES `Tuotteet` (`id`);
+
+--
+-- Constraints for table `Tilaukset`
+--
+ALTER TABLE `Tilaukset`
+  ADD CONSTRAINT `Tilaukset_ibfk_1` FOREIGN KEY (`asiakas_id`) REFERENCES `Asiakkaat` (`id`),
+  ADD CONSTRAINT `Tilaukset_ibfk_2` FOREIGN KEY (`maksutapa_id`) REFERENCES `Maksutavat` (`id`);
+
+--
+-- Constraints for table `Tuotteet`
+--
+ALTER TABLE `Tuotteet`
+  ADD CONSTRAINT `Tuotteet_ibfk_1` FOREIGN KEY (`kategoria_id`) REFERENCES `Kategoriat` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
