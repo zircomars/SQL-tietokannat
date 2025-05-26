@@ -566,3 +566,65 @@ GROUP BY kategoria_id;
 SELECT Asiakkaat.id, COUNT(*) AS idmaara 
 FROM Asiakkaat 
 GROUP BY Asiakkaat.id; 
+
+
+-- sama jos halutaan COUNT kaksi kertaa, niin toistettaan count ominaisuus kategoria/asiansa kahesti ja pätee otettaan mukaan mitkä ei ole NULL
+SELECT kategoria_id, COUNT(*) AS kategorianID, COUNT(varastotilanne) AS varastossa_olevat
+FROM Tuotteet
+WHERE kategoria_id IS NOT NULL
+GROUP BY kategoria_id;
+
+
+-- tämä on toinen methodi, mutta hakee vain tietyn kategorian tuotteet ja laskee niiden määrä
+SELECT COUNT(*) AS tuotteiden_maara
+FROM Tuotteet
+WHERE kategoria_id IN (1, 2);  -- Vain kategoriat 1 ja 2 
+
+
+-- summan laskenta SUM() jokaisesta tyyppistä
+SELECT SUM(Asiakkaat.saldo) AS yhteisSaldo 
+FROM Asiakkaat;
+
+
+
+-- Esim halutaisiin laskea kahden tai useamman Taulukkon erikseen niin näin
+SELECT 
+    (SELECT SUM(saldo) FROM Asiakkaat) AS yhteisSaldo, 
+    (SELECT SUM(hinta) FROM Tuotteet) AS yhteisHinta;
+
+-- SUM() toimii vain numeeristen arvojen kanssa, eikä tekstimuotoisia tietoja, kuten nimet, voi laskea yhteen ja se ei laske NULL arvoja, jos jokin nimi/arvo puuttuu
+SELECT COUNT(Asiakkaat.nimi) as NimiMaara FROM Asiakkaat;
+
+
+-- AVG() keskimääräinen jotakin ja AVG() toimii vain numeeristen arvojen kanssa! Jos yrität käyttää AVG()-funktiota tekstimuotoiseen sarakkeeseen, kuten nimi, SQL antaa virheen, koska keskiarvoa ei voi laskea ei-numeerisista arvoista.
+SELECT AVG(hinta) AS tuotteenHinta FROM Tuotteet;
+
+
+-- =======================================================
+-- SQL MIN() and MAX() Functions
+-- perus minimaalinen ja maksimaalinen funtio palautus arvo jostakin sarakkeesta
+
+-- tarkistetaan minimi hinta
+SELECT MIN(Tuotteet.hinta) 
+FROM Tuotteet; 
+
+
+-- ajattelin tulostaisi minimi hinta 5 kpl:ta, mutta se sitte menisi toisenlaisella komennolla ja helpommalla, ja tapaa on monta mutta ei ole väärää ja oikeata, mutta sitä pitää vaan suunnitella jotta pääsee maaliin asti
+SELECT hinta 
+FROM Tuotteet 
+WHERE hinta IS NOT NULL
+ORDER BY hinta ASC 
+LIMIT 5;
+
+
+-- hinnasta/luvusta annettaan joku aliasta nimi (saldot) ja tulostettaan Asiakkaan taulukkosta
+SELECT MIN(Asiakkaat.saldo) AS saldot
+FROM Asiakkaat;
+
+
+-- Use MIN() with GROUP BY
+-- voidaan käyttää MIN() funktiota ja jotakin GROUP BY lauseketta, että palauttaa jotakin esim. minimi hintaa sarakkeen listasta
+-- esim tässä haettaan minimi tuotteen hinta as minimihinta, kategoria_id ja nimi, Tuotteen taulukkosta ja ryhmitettynä kategoria id mukaan.
+SELECT MIN(Tuotteet.hinta) AS minimiHinta, kategoria_id, nimi
+FROM Tuotteet
+GROUP BY kategoria_id;
