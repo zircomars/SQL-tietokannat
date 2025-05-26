@@ -512,3 +512,57 @@ LIMIT 3;
 -- haettaan raja maasta, italiasssa asiakkaan taulukossa oli vain 1, mutta saksassa muutama, mutta kuitekin haluttaa jomppaa kumppaa
 SELECT * FROM Asiakkaat 
 WHERE osoite = 'Italy' OR osoite = 'Germany' LIMIT 3; 
+
+
+--=======================================================
+-- SQL Aggregate Functions
+
+/* SQL:n Aggregate Functions ovat funktioita, jotka suorittavat laskutoimituksia arvojoukosta ja palauttavat yhden arvon.
+
+Ne auttavat ryhmittelemään ja analysoimaan tietoa suurissa tietokannoissa. Yhdessä GROUP BY-lauseen kanssa ne mahdollistavat datan ryhmittelyn ja yhteenvedon.
+
+
+MIN()	Palauttaa pienimmän arvon sarakkeessa.
+MAX()	Palauttaa suurimman arvon sarakkeessa.
+COUNT()	Laskee rivien määrän joukoissa.
+SUM()	Laskee sarakkeen kaikkien arvojen summan.
+AVG()	Palauttaa sarakkeen keskiarvon.
+
+*/
+
+
+-- esim. laskettaisiin Tuotteen taulukosta hinnat keskihinnaksi (huom. keskihinta - sana - on itse tuotu)
+-- "keskihinta"  ei ole Tuotteen sarakkeessa, vaan se on alias, joka annettaan SQL kyselyssä ja toimii kuin annetaan vain tilapäinen nimi, ja se ei tuhoa taulukkon sisällön rakennetta
+SELECT AVG(hinta) AS keskihinta FROM Tuotteet; 
+
+-- muita esimerkkejä
+SELECT MIN(Tuotteet.hinta) AS pieninhinta FROM Tuotteet;
+
+-- haluttaisiin tulostaa useampaa kuten minimi, maksimi ja keskiarvo
+SELECT MIN(Tuotteet.hinta) AS pieninhinta , M
+AX(Tuotteet.hinta) AS suurinhinta 
+FROM Tuotteet; 
+
+
+SELECT MIN(Tuotteet.hinta) AS pieninhinta,
+MAX(Tuotteet.hinta) AS suurinhinta ,
+AVG(Tuotteet.hinta) AS keskiarvo
+FROM Tuotteet;
+
+
+-- tämä laskee tuotteiden lukumäärää kategoriassa, mutta huomoina Tuotteen taulukkossa on mukana NULL arvoa
+SELECT kategoria_id, COUNT(*) AS tuotteiden_maara 
+FROM Tuotteet 
+GROUP BY kategoria_id;
+
+-- SQL-kysely laskee tuotteiden määrän per kategoria_id, eli se kertoo, kuinka monta tuotetta kuuluu kuhunkin kategoriaan
+SELECT kategoria_id, COUNT(*) AS tuotteiden_maara 
+FROM Tuotteet 
+WHERE kategoria_id IS NOT NULL 
+GROUP BY kategoria_id; 
+
+
+-- tässä on parempi esim. joka laskee Asiakkaan taulukkon kaikki id:n määrät yhteen, ja monta kappaleta niitä onkaan.
+SELECT Asiakkaat.id, COUNT(*) AS idmaara 
+FROM Asiakkaat 
+GROUP BY Asiakkaat.id; 
