@@ -761,19 +761,31 @@ SELECT Asiakkaat.saldo saldoArvot
 FROM Asiakkaat; 
 
 
----=================================================
+--=================================================
 -- SQL Joins
 
 /*
 JOIN-lauseke SQL:ssä yhdistää rivejä kahdesta tai useammasta taulusta yhteisen sarakkeen perusteella. Tämä mahdollistaa tiedon hakemisen useista tauluista yhdellä kyselyllä.
 
 
-INNER JOIN	Palauttaa vain ne rivit, joilla on vastaava osuma molemmissa tauluissa.
-LEFT JOIN (LEFT OUTER JOIN)	Palauttaa kaikki vasemman taulun rivit ja vain vastaavat rivit oikeasta taulusta.
 
-RIGHT JOIN (RIGHT OUTER JOIN)	Palauttaa kaikki oikean taulun rivit ja vain vastaavat rivit vasemmasta taulusta.
-FULL JOIN (FULL OUTER JOIN)	Palauttaa kaikki rivit molemmista tauluista, yhdistäen vastaavat tiedot.
-CROSS JOIN	Luo kaikkien rivien yhdistelmän molemmista tauluista (kartesiainen tulo).
+INNER JOIN	Palauttaa vain ne rivit, joilla on vastaava osuma molemmissa tauluissa.	✅ Vain vastaavat rivit
+
+LEFT JOIN (LEFT OUTER JOIN)	Palauttaa kaikki vasemman taulun rivit ja vain vastaavat rivit oikeasta taulusta.	✅ Vasemman taulun kaikki rivit
+
+RIGHT JOIN (RIGHT OUTER JOIN)	Palauttaa kaikki oikean taulun rivit ja vain vastaavat rivit vasemmasta taulusta.	✅ Oikean taulun kaikki rivit
+
+LEFT and RIGHT JOIN taulukko, kun määrittää LEFT JOIN tai RIGHT JOIN, taulujen järjestys vaikuttaa siihen, kumpi on "vasen" ja kumpi "oikea".
+
+- Vasemman taulun rivit säilyvät, vaikka ei olisi osumaa oikeassa taulussa (LEFT JOIN).
+- Oikean taulun rivit säilyvät, vaikka ei olisi osumaa vasemmassa taulussa (RIGHT JOIN).
+
+SELECT-lauseessa määritetään, mitä tietoja halutaan hakea, mutta itse JOIN-lauseen rakenne määrää, mikä taulu on "vasen" ja mikä "oikea".
+
+
+FULL JOIN (FULL OUTER JOIN)	Palauttaa kaikki rivit molemmista tauluista, yhdistäen vastaavat tiedot.	✅ Molempien taulujen kaikki rivit
+
+CROSS JOIN	Luo kaikkien rivien yhdistelmän molemmista tauluista (kartesiainen tulo).	✅ Kaikki mahdolliset yhdistelmät
 
 */
 
