@@ -761,7 +761,7 @@ SELECT Asiakkaat.saldo saldoArvot
 FROM Asiakkaat; 
 
 
---=================================================
+---=================================================
 -- SQL Joins
 
 /*
@@ -788,6 +788,52 @@ FROM Tilaukset JOIN Asiakkaat ON Tilaukset.asiakas_id = Asiakkaat.id;
 -- tässä haettaan Asiakkaan taulukon alta id ja nimi ja Tilauksen taulukkon alta id ja toimitus status, että mistä Tilauksien alta, sitten palautetaan ne rivit johon vastaa molempien osumia tauluja siksi nimesin INNER JOIN Asiakkaat ja on Tilauksien id <==> Asiakkaan id
 SELECT Asiakkaat.id, Asiakkaat.nimi , Tilaukset.id, Tilaukset.toimitus_status 
 FROM Tilaukset INNER JOIN Asiakkaat ON Tilaukset.id = Asiakkaat.id; 
+
+-- vähä tarkennusta INNER JOIN 
+-- INNER JOIN on SQL-käsky, joka yhdistää kaksi taulukkoa ja valitsee vain ne rivit, joissa yhteiset arvot täsmäävät molemmissa tauluissa. Tämä tarkoittaa, että jos tietoa ei ole molemmissa tauluissa, sitä ei sisällytetä tuloksiin.
+SELECT Tilaukset.id, Asiakkaat.nimi, Tilaukset.toimitus_status
+FROM Tilaukset
+INNER JOIN Asiakkaat ON Tilaukset.asiakas_id = Asiakkaat.id;
+
+
+-- itse vähä rakennettu, mutta methodi 
+SELECT Asiakkaat.id, Asiakkaat.nimi, Tilaukset.toimitus_status, Tilaukset.tilaus_pvm
+FROM Tilaukset
+INNER JOIN Asiakkaat ON Tilaukset.asiakas_id = Asiakkaat.id;
+
+
+-- JOIN or INNER JOIN
+-- Käytännössä JOIN ja INNER JOIN toimivat identtisesti
+
+SELECT Tilaukset.id, Asiakkaat.nimi
+FROM Tilaukset
+JOIN Asiakkaat ON Tilaukset.asiakas_id = Asiakkaat.id;
+
+
+SELECT Tilaukset.id, Asiakkaat.nimi
+FROM Tilaukset
+INNER JOIN Asiakkaat ON Tilaukset.asiakas_id = Asiakkaat.id;
+
+
+
+-- JOIN Three tables
+-- eli kolme taulukkoa, ja jos tulee neljäs sitten tulee kolmas INNER JOIN lausekke
+SELECT Asiakkaat.nimi AS AsiakasNimi, Tilaukset.id AS TilausID, 
+       Tilaukset.toimitus_status AS TilausStatus, Maksutavat.tapa AS Maksutapa
+FROM Tilaukset
+INNER JOIN Asiakkaat ON Tilaukset.asiakas_id = Asiakkaat.id
+INNER JOIN Maksutavat ON Tilaukset.maksutapa_id = Maksutavat.id;
+
+
+SELECT Asiakkaat.nimi AS AsiakasNimi, Tilaukset.id AS TilausID, 
+       Tilaukset.toimitus_status AS TilausStatus, Tuotteet.nimi AS TuoteNimi, 
+       Tilauksen_rivit.määrä AS Määrä, Tilauksen_rivit.yhteishinta AS Yhteishinta
+FROM Tilaukset
+INNER JOIN Asiakkaat ON Tilaukset.asiakas_id = Asiakkaat.id
+INNER JOIN Tilauksen_rivit ON Tilaukset.id = Tilauksen_rivit.tilaus_id
+INNER JOIN Tuotteet ON Tilauksen_rivit.tuote_id = Tuotteet.id;
+
+
 
 
 
