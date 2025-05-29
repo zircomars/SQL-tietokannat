@@ -787,6 +787,48 @@ FULL JOIN (FULL OUTER JOIN)	Palauttaa kaikki rivit molemmista tauluista, yhdist�
 
 CROSS JOIN	Luo kaikkien rivien yhdistelmän molemmista tauluista (kartesiainen tulo).	✅ Kaikki mahdolliset yhdistelmät
 
+===========================================================================
+PIENI PELI/MUISTISÄÄNTÖ KOSKIEN JOIN KYSELLYYNSÄ: 
+
+- INNER JOIN - vain yhteiset rivit, ja vain ne rivit, jotka löytyvät molemmista tauluista
+- LEFT JOIN - kaikki vasemman taulun rivit + yhteiset, vaikka oikea taulussa vastaavaa tietoa ei olisi (NULL)
+- RIGHT JOIN - kaikki oikea taulun rivit + yhteiset, vaikka oikean taulun rivit, vaikka vasemman taulun vastaavaa tietoa ei olisi (NULL)
+- FULL JOIN - kaikki rivit molemmista tauluista , kaikki rivit molemmista tauluista, vaikka vastaavaa tietoa ei olisi toisessa taulussa ja NULL arvoja sallittaan
+===========================================================================
+
+LEFT JOIN vs. RIGHT JOIN - jotakin huomoittavaa SQL komennossa.
+
+LEFT JOIN – Kaikki vasemman taulun rivit säilytetään
+Palauttaa kaikki rivit vasemmasta taulusta, vaikka oikean taulun vastaavia tietoja ei olisi.
+
+Jos oikeasta taulusta ei löydy vastaavia tietoja, NULL-arvo ilmestyy.
+
+Hyöty: Käytetään silloin, kun halutaan säilyttää vasemman taulun rivit, vaikka oikeasta taulusta ei olisi vastaavuutta.
+
+
+
+RIGHT JOIN – Kaikki oikean taulun rivit säilytetään
+Palauttaa kaikki rivit oikeasta taulusta, vaikka vasemman taulun vastaavia tietoja ei olisi.
+
+Jos vasemmasta taulusta ei löydy vastaavia tietoja, NULL-arvo ilmestyy.
+
+Hyöty: Käytetään silloin, kun halutaan säilyttää oikean taulun rivit, vaikka vasemmasta taulusta ei löytyisi vastaavuutta.
+
+
+
+
+ELI KUMPPAA VALITAAN/MITEN VALITA OIKEA JOIN?
+
+Käytä LEFT JOIN, jos haluat säilyttää kaikki vasemman taulun rivit, mutta sallit oikean taulun NULL-arvot.
+
+Käytä RIGHT JOIN, jos haluat säilyttää kaikki oikean taulun rivit, mutta sallit vasemman taulun NULL-arvot.
+
+Jos et ole varma, kumpi on järkevämpi, mieti kumpi taulu on tärkeämpi säilyttää kokonaan!
+
+
+
+
+===========================================================================
 */
 
 -- JOIN
@@ -937,3 +979,4 @@ Nathan Reed 	Kadonnut 	104
 SELECT Asiakkaat.nimi, Tuotteet.nimi AS Tuote
 FROM Asiakkaat
 CROSS JOIN Tuotteet;
+
