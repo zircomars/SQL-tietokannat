@@ -1136,6 +1136,91 @@ Milloin kannattaa käyttää UNION ALL?
 
 --=========================================================================
 
+--=========================================================================
 
+-- SQL GROUP BY Statement
+
+/*
+🔹 GROUP BY ryhmittelee rivejä, joilla on samat arvot, ja luo niistä yhteenvedon. 🔹 Usein käytetään yhdessä aggregaattifunktioiden kanssa, kuten:
+
+COUNT() – laskee rivien lukumäärän.
+
+MAX() – löytää suurimman arvon.
+
+MIN() – löytää pienimmän arvon.
+
+SUM() – laskee arvot yhteen.
+
+AVG()
+
+GROUP BY on SQL:ssa ryhmittelyoperaattori, jota käytetään yhdistämään rivejä samojen arvojen perusteella. Se on erityisen hyödyllinen, kun halutaan tehdä tilastollisia laskelmia kuten keskiarvo (AVG()), summa (SUM()), suurin (MAX()) ja pienin (MIN()).
+
+GROUP BY-lauseke on hyvin yleisesti käytetty SQL-kyselyissä, erityisesti tuotantoympäristöissä, joissa käsitellään suuria tietokantoja ja raportointia. Se on keskeinen, kun halutaan ryhmitellä dataa analyysiä ja tilastollista laskentaa varten.
+
+🔹 Mihin GROUP BY käytetään eniten tuotannossa?
+✅ Raportit ja tilastot – Myynnin, tilausten ja asiakaskäyttäytymisen analysointi. ✅ Data-analyysi – Keskiarvot, summat, määrät eri kategorioiden tai aikajaksojen mukaan. ✅ Kyselyt sovelluksissa – Verkkokaupan tilaukset, käyttäjätilastot, palvelupyynnöt. ✅ Dashboardit ja BI-työkalut – Analytiikkatyökaluissa kuten Power BI, Tableau ja MySQL Workbench.
+
+
+❌ Mahdolliset haasteet
+Suorituskyky: GROUP BY voi hidastua isoilla tietomäärillä, jos indeksointi ei ole optimoitu.
+
+NULL-arvot: Jos tiedot ovat puutteellisia, aggregaattifunktiot voivat antaa vääriä tuloksia.
+
+Virheet ryhmittelyssä: Jos väärät sarakkeet ryhmitellään, tulos voi olla epäselvä tai väärin laskettu.
+
+
+*/
+
+
+-- tässä esim. haettaan Asiakkaiden osoitteen kautta laskettuna AS maat, Asiakkaan taulukosta ja ryhmitettynä kuin osoite(maa). Tämä kuitenkin ryhmittelee asiakkaiden osoitteen (maan) mukaan ja laskee kuinka monta asiakasta on kustakin maasta.
+SELECT Asiakkaat.osoite, COUNT(*) AS maa 
+FROM Asiakkaat 
+GROUP BY osoite; 
+
+
+/*TULOSTUS VIEW;
+
+osoite 	maa 	
+Australia 	4
+Belgium 	3
+Canada 	1
+France 	1
+Germany 	5
+Italy 	1
+Japan 	4
+New Zealand 	4
+Spain 	3
+Suomi 	16
+UK 	5
+USA 	4
+*/
+
+
+
+-- Haettaan Tilauksien taulukkosta se id, avg
+SELECT Tilaukset.id, AVG(Tilaukset.asiakas_id) AS keskimääräinen_summa 
+FROM Tilaukset 
+GROUP BY Tilaukset.id; 
+
+
+-- sama idea kuin ylempi, mutta haettaan TÄMÄN yksittäisen taulukkon nimettyä tuotetta id ja sen kateogria määrä
+-- periaatteessa kuitenkin tuotteen id, tuotteen nimi ja summattuna tuotteen kategoria id AS tuotteen kategoria 
+SELECT Tuotteet.id, Tuotteet.nimi, SUM(Tuotteet.kategoria_id) as TuotteenKategoria 
+FROM Tuotteet 
+GROUP BY Tuotteet.id; 
+
+
+-- saattii korjattu tapa, mutta tässä saattua tuloksena näyttää maksutavan mukaan laskettujen tilausten määrää, vähä kuin esim. käteisellä x kpl:ta. 
+SELECT Tilaukset.maksutapa_id, COUNT(*) AS tilausten_maara
+FROM Tilaukset
+GROUP BY Tilaukset.maksutapa_id;
+
+
+/*
+maksutapa_id 	tilauksien_maara Descending 1 	
+1 	9
+2 	8
+3 	8
+*/
 
 
