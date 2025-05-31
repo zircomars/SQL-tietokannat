@@ -869,6 +869,12 @@ FROM Tilaukset
 INNER JOIN Asiakkaat ON Tilaukset.asiakas_id = Asiakkaat.id;
 
 
+-- join mukaan Tilauksen taulukko ja Asiakkaan taulukko, että verrattaan se asiakkaan id ja tilauksen id täsmentyy ja voidaan tarkistaa se onko toimitettu ja näin
+SELECT Tilaukset.id AS tilaus_id, Asiakkaat.nimi, Tilaukset.toimitus_status
+FROM Tilaukset
+JOIN Asiakkaat ON Tilaukset.asiakas_id = Asiakkaat.id
+WHERE Tilaukset.toimitus_status = 'toimitettu';
+
 
 -- JOIN Three tables
 -- eli kolme taulukkoa, ja jos tulee neljäs sitten tulee kolmas INNER JOIN lausekke
