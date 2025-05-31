@@ -1,6 +1,7 @@
 
 -- ==================================================================
 -- ALKAEN TÄSTÄ W3SCHOOLS-HARJ2.SQL
+-- MUUTAMIA HARJOITUKSIA W3SCHOOLS JA LISÄÄ EDITOITUNA
 
 -- SQL HAVING Clause
 -- 🔹 HAVING lisättiin SQL:ään, koska WHERE ei voi suodattaa aggregaattifunktioita kuten SUM(), AVG(), COUNT(), MAX() ja MIN(). 🔹 Se toimii yhdessä GROUP BY -lauseen kanssa, jotta voidaan suodattaa ryhmän tuloksia aggregaattifunktioiden perusteella.
