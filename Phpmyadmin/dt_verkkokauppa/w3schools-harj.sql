@@ -988,6 +988,22 @@ esim. tarkasteltaisiin Asiakkaita, joilla on sama rekisteröitymispvm ja tästä
 
 self join-idean ydin on se, että samaa taulukkoa yhdistetään itseensä, jotta voidaan analysoida tietoja, joissa riveillä on jokin yhteinen tekijä. Voit käyttää self joinia, jos haluat vertailla rivejä taulukon sisällä, esimerkiksi etsimällä asiakkaita, joilla on sama rekisteröitymispäivämäärä, sama sähköpostidomain tai sama saldo.
 
+----------------------------------------------------------------
+
+HYVÄT JA HUONOT PUOLET ITSENSÄ (SELF JOIN):
+
+- Self join on SQL:ssa vähemmän käytetty kuin tavalliset liittymisoperaatiot kuten INNER JOIN tai LEFT JOIN, mutta sitä tarvitaan erityistapauksissa, joissa tauluun tallennettu data viittaa itseensä. Esimerkiksi työntekijät-taulu, jossa työntekijöillä on esihenkilöitä, tallennetaan usein yhteen tauluun, jolloin self join auttaa löytämään yhteyksiä.
+
+
+Huonot puolet:
+❌ Voi olla hidas suurilla tietomäärillä – Self join liittyy samaan tauluun kahdesti, joten isoilla tauluilla suorituskyky voi heiketä. ❌ Vaatii alias-nimiä – Jotta kysely pysyy selkeänä, on käytettävä alias-nimiä (A, B jne.), mikä voi tehdä koodista monimutkaisempaa. ❌ Ei aina ole paras ratkaisu – Joissain tilanteissa eri taulujen liittymiset (JOIN) voivat olla tehokkaampia kuin self join.
+
+Milloin self join kannattaa käyttää?
+📌 Kun haluat vertailla rivejä saman taulun sisällä. 📌 Kun taulussa on hierarkkinen suhde (esim. esihenkilöt työntekijöille). 📌 Kun et halua luoda ylimääräisiä tauluja tietojen yhdistämiseen.
+
+Joskus vaihtoehtoiset ratkaisut, kuten CTE (WITH-lauseke) tai alitaulut, voivat olla parempia vaihtoehtoja kuin self join. Riippuu täysin datan rakenteesta
+
+
 */
 
 -- tämä kertoo ja hakee jotakin sentään
