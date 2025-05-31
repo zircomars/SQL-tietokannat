@@ -980,3 +980,50 @@ SELECT Asiakkaat.nimi, Tuotteet.nimi AS Tuote
 FROM Asiakkaat
 CROSS JOIN Tuotteet;
 
+
+-- Self join
+/* erityinen tapa yhdistäää taulu itsensä ja tätä käytettään silloin, kun taulussa on dataa, joka liittyy toisiinsa saman taulun sisällä, kuten organisaation työntekijän ja heidän esihenkilönsä. 
+
+esim. tarkasteltaisiin Asiakkaita, joilla on sama rekisteröitymispvm ja tästä voi hyödyntää esim. analysoitaessa asiakaskäyttätymistä tai tarjousten kohdentamista.
+
+self join-idean ydin on se, että samaa taulukkoa yhdistetään itseensä, jotta voidaan analysoida tietoja, joissa riveillä on jokin yhteinen tekijä. Voit käyttää self joinia, jos haluat vertailla rivejä taulukon sisällä, esimerkiksi etsimällä asiakkaita, joilla on sama rekisteröitymispäivämäärä, sama sähköpostidomain tai sama saldo.
+
+*/
+
+-- tämä kertoo ja hakee jotakin sentään
+SELECT A.nimi AS Asiakas1, B.nimi AS Asiakas2, A.rekisteröitymis_pvm
+FROM Asiakkaat A
+JOIN Asiakkaat B
+ON A.rekisteröitymis_pvm <=> B.rekisteröitymis_pvm 
+AND A.id <> B.id;
+
+/*
+Tuloksena näin, koska tuloksena tarkoittaa molemmilla rekisteröitymis_pvm arvot on NULL. Koska self join -kysely yhdisti kaikki asiakkaat, joilla on sama rekisteröitymispäivämäärä, mutta eri id, ja koska NULL ei ole vertailtavissa tavallisella =-operaattorilla, käytetty <=>-operaattori mahdollisti sen, että NULL-arvot tulivat mukaan vertailuun.
+
+ Asiakas1 	Asiakas2 	rekisteröitymis_pvm 	
+Nicole Colombi 	Matti 	NULL
+Matti 	Nicole Colombi 	NULL 
+*/
+
+
+-- self join kyselyä, joilla on sama saldo
+SELECT A.nimi AS Asiakas1, B.nimi AS Asiakas2, A.saldo
+FROM Asiakkaat A
+JOIN Asiakkaat B
+ON A.saldo = B.saldo
+AND A.id <> B.id;
+
+
+/*
+
+ Asiakas1 	Asiakas2 	saldo 	
+Emilia Ranta 	Sami Nieminen 	24327.57
+Oliver Koskinen 	Laura Hiltunen 	16340.49
+Noora Väänänen 	Nathan Reed 	31193.00
+Sami Nieminen 	Emilia Ranta 	24327.57
+Laura Hiltunen 	Oliver Koskinen 	16340.49
+Nathan Reed 	Noora Väänänen 	31193.00
+Sofia Leppänen 	Kasper Laakso 	12345.67
+Kasper Laakso 	Sofia Leppänen 	12345.67
+
+*/
