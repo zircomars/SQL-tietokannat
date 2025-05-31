@@ -1118,8 +1118,23 @@ TULOSTUS VIEW:
 */
 
 
+-- UNION ALL Miten se eroaa UNIONista?
+-- UNION poistaa automaattisesti päällekkäiset rivit tuloksista. 🔹 UNION ALL säilyttää kaikki duplikaatit eikä tee ylimääräistä suodatusta.
 
 
+-- esim. tässä tulostettaan ja palautettaa kaikki asiakkaiden ja tilausten nimet, että jotka esiintyvät useammin kuin kerran
+SELECT nimi FROM Asiakkaat
+UNION ALL
+SELECT nimi FROM Tilaukset;
+
+/*
+Milloin kannattaa käyttää UNION ALL?
+✔ Jos et halua suodattaa duplikaatteja (esim. raportissa). ✔ Jos suorituskyvyn optimointi on tärkeää—UNION ALL on nopeampi kuin UNION, koska se ei tarkista rivien ainutlaatuisuutta. ✔ Kun yhdistetään tietoa eri tauluista ilman tarvetta muokata tuloksia.
+
+❌ Huomio: UNION ALL voi tuottaa liikaa duplikaatteja, joten sitä kannattaa käyttää harkiten!
+*/
+
+--=========================================================================
 
 
 
