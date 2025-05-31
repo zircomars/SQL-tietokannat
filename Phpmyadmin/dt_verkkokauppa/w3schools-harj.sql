@@ -1043,3 +1043,84 @@ Sofia Leppänen 	Kasper Laakso 	12345.67
 Kasper Laakso 	Sofia Leppänen 	12345.67
 
 */
+
+
+--=========================================================================
+-- SQL UNION Operator
+
+/* SQL UNION -operaattori yhdistää kahden tai useamman SELECT-lauseen tulokset yhdeksi joukoksi.
+
+Ehdot UNIONin käyttöön: ✅ Jokaisessa SELECT-lauseessa täytyy olla sama määrä sarakkeita. ✅ Sarakkeiden tietotyypit tulee olla samankaltaisia (esim. numerot eivät voi yhdistyä tekstiin). ✅ Sarakkeet täytyy olla samassa järjestyksessä kaikissa SELECT-lauseissa.
+
+ID-arvoilla on iso merkitys tietokannan rakenteessa, varsinkin kun eri tauluissa käytetään eri ID-sarakkeita
+
+Esimerkiksi Asiakkaat-taulussa id viittaa asiakkaan ID:hen, kun taas Tilaukset-taulussa id tarkoittaa tilausta. Tämä voi vaikuttaa esimerkiksi UNION-käyttöön, jos yritetään yhdistää dataa kahdesta eri taulusta, joissa ID-arvoilla on eri merkitys.
+
+====================================================
+
+TUOTANTO JA TÄMÄN UNION KOMENTO KÄYTTÖ
+
+
+Missä UNIONia käytetään yleisesti?
+✔ Raporttien yhdistäminen – Kun halutaan yhdistää eri taulujen dataa yhdeksi listaksi ilman monimutkaisia liittymiä. ✔ Eri lähteistä tulevan datan näyttäminen – Esimerkiksi yhdistää Asiakkaat- ja Työntekijät-taulujen tiedot yhdeksi näkymäksi. ✔ Erillisten kyselyiden yhdistäminen – Kun tietoa haetaan eri tauluista, mutta niiden rakenne on samanlainen.
+
+Onko UNION tehokas?
+❌ Ei aina tehokkain tapa – Jos tauluissa on suuria määriä dataa, UNION voi hidastaa kyselyä, koska se poistaa duplikaatit ennen tuloksen palauttamista. ❌ Vaatii samanlaiset sarakkeet – UNION toimii vain, jos SELECT-lauseissa on täsmälleen sama määrä sarakkeita ja niiden tietotyypit vastaavat toisiaan. ✔ UNION ALL voi parantaa suorituskykyä – Jos duplikaattien poistaminen ei ole tarpeen, UNION ALL on nopeampi.
+
+Käytetäänkö UNIONia paljon tuotannossa?
+Kyllä, mutta rajoitetusti. Tuotannossa JOIN on yleisempi tapa yhdistää tauluja, koska se on optimoitu liittymään rivejä tehokkaasti. UNIONia käytetään kun taulut eivät liity toisiinsa suoraan, mutta halutaan silti yhdistää niiden data.
+
+*/
+
+-- esim.
+SELECT id AS asiakas_id, nimi FROM Asiakkaat
+UNION
+SELECT id AS tilaus_id, tilaus_pvm FROM Tilaukset;
+
+
+/*
+asiakas_id 	nimi 	
+1 	Matti Meikäläinen
+2 	Anna Virtanen
+3 	Jari Korhonen
+4 	Paula Laine
+5 	Sami Nieminen
+6 	Laura Hiltunen
+7 	Tomi Salminen
+8 	Riikka Mäkelä
+9 	Eero Kallio
+
+*/
+
+
+-- esimerkissä yhdistää Asiakkaiden ja Tilaus-tiedot. Esim. haettaisiin asiakkaiden ja tilausten nimet, että saaadaan kaikki asiakkaat ja asiakkaiden tekemät tilaukset. 
+
+-- Mitä tämä tekee? ✅ Ensimmäinen osa hakee asiakkaiden id, nimen ja rekisteröitymis_pvm taulusta Asiakkaat. ✅ Toinen osa hakee tilauksien id, tilauspäivämäärän, ja nimeää rivit "Tilaus X", jotta ne erottuvat selkeästi. ✅ UNION yhdistää molemmat tulokset yhdeksi listaksi. ✅ Lisäsarakkeena "tyyppi", joka kertoo, onko kyseessä asiakas vai tilaus.
+SELECT id AS tunniste, nimi, rekisteröitymis_pvm, 'Asiakas' AS tyyppi 
+FROM Asiakkaat 
+UNION SELECT id AS tunniste, CONCAT('Tilaus ', id), tilaus_pvm, 'Tilaus' AS tyyppi FROM Tilaukset; 
+
+
+/*
+TULOSTUS VIEW:
+ tunniste 	nimi 	rekisteröitymis_pvm 	tyyppi 	
+1 	Matti Meikäläinen 	1965-06-05 	Asiakas
+2 	Anna Virtanen 	1964-07-31 	Asiakas
+3 	Jari Korhonen 	1975-08-18 	Asiakas
+4 	Paula Laine 	1973-05-26 	Asiakas
+5 	Sami Nieminen 	1989-02-08 	Asiakas
+6 	Laura Hiltunen 	1954-05-05 	Asiakas
+7 	Tomi Salminen 	1973-05-21 	Asiakas
+8 	Riikka Mäkelä 	1992-11-25 	Asiakas
+9 	Eero Kallio 	1973-05-07 	Asiakas
+
+
+*/
+
+
+
+
+
+
+
+
