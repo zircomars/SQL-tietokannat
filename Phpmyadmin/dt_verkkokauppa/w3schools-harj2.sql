@@ -232,3 +232,70 @@ SQL ANY ja ALL -operaattorit
 ✔ Palauttaa TRUE, jos yksi tai useampi alikyselyn arvo täyttää ehdon. ✔ Ehto toteutuu, jos vertailuoperaatio pitää paikkansa minkä tahansa alikyselyn arvon kohdalla.
 
 */
+
+-- esim näyttää tuotteen, joka on halvempi kuin mikä tahansa tilattu tuote. ANY tässä tarkoittaa, että tuote näytetään, jos se on halvempi kuin yksikin tilauksen yhteishinta.
+SELECT nimi FROM Tuotteet 
+WHERE hinta < ANY (SELECT yhteishinta FROM Tilauksen_rivit);
+
+
+-- 🔹 SQL ALL -operaattori
+-- ✔ Palauttaa TRUE, jos ehto täyttyy kaikille alikyselyn palauttamille arvoille. ✔ Ehto toteutuu vain, jos vertailuoperaatio on tosi jokaisen alikyselyn arvon kohdalla.
+
+-- tämä näyttää tuotteensa, jotka ovat kalliimpia kuin kaikki tilatut ja ALL tässä tarkoittaa, että tuote näytetään vain jos se on kalliimpi kuin jokainen tilauksen yhteishinta.
+SELECT Tuotteet.nimi, Tuotteet.hinta 
+FROM Tuotteet 
+WHERE hinta > ALL (SELECT yhteishinta FROM Tilauksen_rivit); 
+
+
+/* ANY vs. ALL - eronsa
+
+WHERE hinta < ANY (...)	✅ TRUE, jos hinta on vähemmän kuin jokin alikyselyn arvoista
+WHERE hinta > ALL (...)	✅ TRUE, vain jos hinta on suurempi kuin kaikki alikyselyn arvot
+
+Näitä käytetään erityisesti vertailuja varten, kun halutaan tarkastella dataa dynaamisesti
+
+🔹 ANY tarkoittaa mikä tahansa arvo alikyselystä voi täyttää ehdon. Jos yksikin arvo täyttää vertailuehdon, koko ehto on TRUE. 
+🔹 ALL tarkoittaa kaikkien alikyselyn arvojen täytyy täyttää ehto. Ehto pitää paikkansa vain jos se pätee kaikille
+
+Eli ANY antaa joustavuutta, kun taas ALL pakottaa täyttämään ehdon kaikille arvoille
+*/
+
+
+-- tämä näyttää tuotteet, joita ei ole tilattu yhtään ja ✅ ALL tässä varmistaa, että vain tuotteet, joita ei ole tilattu yhtään, näkyvät.
+SELECT nimi FROM Tuotteet
+WHERE id != ALL (SELECT tuote_id FROM Tilauksen_rivit);
+
+
+
+-- ANY ja ALL voivat olla erittäin tehokkaita yhdistettynä WHERE- ja HAVING-lausekkeisiin.
+
+-- ANY + WHERE + HAVING: Näytä asiakkaat, joiden saldo on pienempi kuin minkä tahansa tilausten yhteishinta
+-- tämä WHERE saldo < ANY (...) antaa asiakkaan saldo on pienempi kuin ainakin yksi tilauksen yhteishinta. 
+-- HAVING saldo > 0: Näytetään vain asiakkaat, joilla on saldoa jäljellä.
+SELECT Asiakkaat.nimi, Asiakkaat.saldo
+FROM Asiakkaat
+WHERE saldo < ANY (SELECT yhteishinta FROM Tilauksen_rivit)
+HAVING saldo > 0;
+
+/* OUTOA?
+Tämä (ylempi) komento antoi tuloksensa jolla yhdellä henkilöllä on noin 269.30 (saldoa), eikä lähellä nollaa? 
+
+
+1️⃣ WHERE saldo < ANY (...):
+
+Tämä tarkoittaa, että asiakkaan saldo on pienempi kuin ainakin yksi Tilauksen_rivit-taulun yhteishinta.
+Koska ANY sallii vertailun mihin tahansa arvoon, se ei vaadi, että saldo on pienempi kuin kaikki yhteishinnat.
+
+2️⃣ HAVING saldo > 0:
+
+Tämä suodattaa pois kaikki asiakkaat, joiden saldo on 0 tai negatiivinen.
+Vain positiivisen saldon omaavat jäävät jäljelle.
+
+ainakin tämä kertoi ja antoi kaikki ainutlaatuisen yhteishinnan, jotta näkee mikä saattaa olla llähellä asiakkaan saldoa.. 
+*/
+
+-- nyt tämä sisältää myös asiakkaansa, joiden saldo on yli 200 €, mutta silti pienempi kuin joku yhteishinta.
+SELECT Asiakkaat.nimi, Asiakkaat.saldo
+FROM Asiakkaat
+WHERE saldo < ANY (SELECT yhteishinta FROM Tilauksen_rivit)
+HAVING saldo > 200;
