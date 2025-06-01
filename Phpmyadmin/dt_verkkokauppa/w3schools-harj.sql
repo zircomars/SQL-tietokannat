@@ -869,6 +869,12 @@ FROM Tilaukset
 INNER JOIN Asiakkaat ON Tilaukset.asiakas_id = Asiakkaat.id;
 
 
+-- kokeillaan tällaista yhdistämällä Tilauksien_rivien ja Tuottteen taulukkoa. Tämä näyttää tuotenimen, määrän ja yhteishinnan jokaiselle riville. Vähä kuin varmistettaisiin se tuotteen nimi + määrä ja yhteishinta esim. (novelli - 2 kpl - yhteishinta 25.98).
+SELECT Tuotteet.nimi, Tilauksen_rivit.määrä, Tilauksen_rivit.yhteishinta 
+FROM Tilauksen_rivit JOIN Tuotteet ON Tilauksen_rivit.tuote_id = Tuotteet.id; 
+
+
+
 -- join mukaan Tilauksen taulukko ja Asiakkaan taulukko, että verrattaan se asiakkaan id ja tilauksen id täsmentyy ja voidaan tarkistaa se onko toimitettu ja näin
 SELECT Tilaukset.id AS tilaus_id, Asiakkaat.nimi, Tilaukset.toimitus_status
 FROM Tilaukset
