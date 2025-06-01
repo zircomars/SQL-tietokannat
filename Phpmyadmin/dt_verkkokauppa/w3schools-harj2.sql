@@ -122,7 +122,113 @@ WHERE EXISTS (SELECT 1 FROM Tilaukset WHERE Asiakkaat.id = Tilaukset.asiakas_id)
 
 
 -- kokeillaan pikkasen muuta että tarkistellaan Tuotteen nimen ja varastotilannetta, että tilauksensa joka varastotilanne on yli 50kpl:ta
+-- samaan voihan jos tietää on tasa luku vaikappa = 80 - esim. tuotteen tilanteesta niin se löytää täsmällisen määrän
 SELECT Tuotteet.nimi, Tuotteet.varastotilanne 
 FROM Tuotteet 
 WHERE EXISTS (SELECT 1 FROM Tilaukset WHERE Tilaukset.id AND Tuotteet.varastotilanne > 50); 
 
+
+
+-- muita esimerkkejä, ja kokeillaan onko Asiakkaiden taulukosta, joilla on tilausta ja tämä komento hakee vain ne asiakkaat joilla on esim. vähintään yksi tilaus (SELECT 1 FROM Tilaukset)
+SELECT * FROM Asiakkaat
+WHERE EXISTS (
+    SELECT 1 FROM Tilaukset 
+    WHERE Tilaukset.asiakas_id = Asiakkaat.id
+);
+
+
+-- nyt etsitään Asiakkasta, joilla EI OLE tilauksia eli käänteinen logiikka
+SELECT * FROM Asiakkaat
+WHERE NOT EXISTS (
+    SELECT 1 FROM Tilaukset 
+    WHERE Tilaukset.asiakas_id = Asiakkaat.id
+);
+
+
+-- etsitään asiakkasta, jotka ovat ostaneet tietyn tuotteen Jos haluat löytää asiakkaat, jotka ovat tilanneet tietyn tuotteen. Tässä on käytetty 3 taulukkoa yhdistettynä.
+SELECT * FROM Asiakkaat 
+WHERE EXISTS ( SELECT 1 FROM Tilauksen_rivit JOIN Tilaukset ON Tilauksen_rivit.tilaus_id = Tilaukset.id 
+WHERE Tilauksen_rivit.tuote_id = 5 AND Tilaukset.asiakas_id = Asiakkaat.id ); 
+
+
+-- etsitään ja suodatettaan asiakkaan, joiden tilaukset on käsitelty Jos haluat listata vain ne asiakkaat, joiden tilauksia on käsitelty (toimitus_status = 'käsittelyssä'),
+SELECT Asiakkaat.nimi, Asiakkaat.id 
+FROM Asiakkaat 
+WHERE EXISTS ( SELECT 1 FROM Tilaukset 
+WHERE Tilaukset.asiakas_id = Asiakkaat.id AND Tilaukset.toimitus_status = 'käsittelyssä' ); 
+
+
+
+
+-- kokeillaan jotekin saada lisäättyä saldoa +100, mutta ennen tarkistellaan se tuloksensa, mitä tässä komennossa tulostuukaan.
+SELECT id, nimi, saldo 
+FROM Asiakkaat WHERE EXISTS ( SELECT 1 FROM Tilaukset 
+WHERE Tilaukset.asiakas_id = Asiakkaat.id AND Tilaukset.toimitus_status = 'käsittelyssä' ); 
+
+/*
+BEFORE:
+Full texts
+	id 	nimi 	saldo 	
+	Edit Edit 	Copy Copy 	Delete Delete 	1 	Matti Meikäläinen 	6860.87
+	Edit Edit 	Copy Copy 	Delete Delete 	3 	Jari Korhonen 	28267.12
+	Edit Edit 	Copy Copy 	Delete Delete 	7 	Tomi Salminen 	8819.74
+	Edit Edit 	Copy Copy 	Delete Delete 	10 	Veera Lehtinen 	50003.36
+	Edit Edit 	Copy Copy 	Delete Delete 	17 	Isabella Evans 	42731.48
+	Edit Edit 	Copy Copy 	Delete Delete 	21 	Olivia Mäkinen 	3902.34
+	Edit Edit 	Copy Copy 	Delete Delete 	22 	Leon Shawn 	44232.84
+	Edit Edit 	Copy Copy 	Delete Delete 	106 	Yuki Nakamura 	27660.88
+	Edit Edit 	Copy Copy 	Delete Delete 	108 	Jessica Carter 	42487.92
+	Edit Edit 	Copy Copy 	Delete Delete 	109 	Brandon Mitchell 	19972.65
+	Edit Edit 	Copy Copy 	Delete Delete 	111 	Oliver Bennett 	28835.67
+
+
+*/
+
+-- sitten suoritettaan tällainen komento UPDATE ja mukaan lukien on toi EXISTS komento
+UPDATE Asiakkaat
+SET saldo = saldo + 100
+WHERE EXISTS (
+    SELECT 1 FROM Tilaukset 
+    WHERE Tilaukset.asiakas_id = Asiakkaat.id
+    AND Tilaukset.toimitus_status = 'käsittelyssä'
+)
+
+
+-- sitten toistettaan se sama komento, jossa tarkistellaan henkilön id, nimi ja heidän saldonsa ja muutos kyllä tapahtui eli after:
+SELECT id, nimi, saldo 
+FROM Asiakkaat WHERE EXISTS ( SELECT 1 FROM Tilaukset 
+WHERE Tilaukset.asiakas_id = Asiakkaat.id AND Tilaukset.toimitus_status = 'käsittelyssä' ); 
+
+/*
+AFTER
+Full texts
+	id 	nimi 	saldo 	
+	Edit Edit 	Copy Copy 	Delete Delete 	1 	Matti Meikäläinen 	6960.87
+	Edit Edit 	Copy Copy 	Delete Delete 	3 	Jari Korhonen 	28367.12
+	Edit Edit 	Copy Copy 	Delete Delete 	7 	Tomi Salminen 	8919.74
+	Edit Edit 	Copy Copy 	Delete Delete 	10 	Veera Lehtinen 	50103.36
+	Edit Edit 	Copy Copy 	Delete Delete 	17 	Isabella Evans 	42831.48
+	Edit Edit 	Copy Copy 	Delete Delete 	21 	Olivia Mäkinen 	4002.34
+	Edit Edit 	Copy Copy 	Delete Delete 	22 	Leon Shawn 	44332.84
+	Edit Edit 	Copy Copy 	Delete Delete 	106 	Yuki Nakamura 	27760.88
+	Edit Edit 	Copy Copy 	Delete Delete 	108 	Jessica Carter 	42587.92
+	Edit Edit 	Copy Copy 	Delete Delete 	109 	Brandon Mitchell 	20072.65
+	Edit Edit 	Copy Copy 	Delete Delete 	111 	Oliver Bennett 	28935.67
+
+*/
+
+
+
+--===========================================================================================
+-- SQL ANY and ALL Operators
+
+/*
+
+SQL ANY ja ALL -operaattorit
+✅ ANY ja ALL-operaattorit mahdollistavat vertailun yhden sarakkeen arvon ja joukon muiden arvojen välillä. ✅ Näitä käytetään yleensä subqueryjen kanssa ja toimivat vertailuoperaattoreiden kuten <, >, = ja != kanssa.
+
+
+🔹 SQL ANY -operaattori
+✔ Palauttaa TRUE, jos yksi tai useampi alikyselyn arvo täyttää ehdon. ✔ Ehto toteutuu, jos vertailuoperaatio pitää paikkansa minkä tahansa alikyselyn arvon kohdalla.
+
+*/
