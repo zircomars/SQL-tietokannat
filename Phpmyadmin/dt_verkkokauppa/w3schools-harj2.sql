@@ -100,4 +100,29 @@ GROUP BY Asiakkaat.nimi
 HAVING tilausten_maara > 5;
 
 
+-- =========================================================================================
+-- SQL EXISTS Operator
+
+/* 
+✅ EXISTS-operaattori tarkistaa, onko alikyselyssä yhtään riviä. 
+✅ Se palauttaa TRUE, jos alikysely löytää vähintään yhden rivin. 
+✅ Jos alikysely ei palauta mitään, EXISTS palauttaa FALSE.
+EXISTS on hyödyllinen, kun haluat varmistaa, että tietty ehto täyttyy ilman turhaa tiedon hakemista
+
+SELECT nimi 
+FROM Asiakkaat 
+WHERE EXISTS (SELECT 1 FROM Tilaukset WHERE Asiakkaat.id = Tilaukset.asiakas_id);
+
+*/
+
+-- esim. tämä näyttää VAIN asiakkaat, jotka ovat tehneet vähintään yhden 1 tilauksensa
+SELECT nimi 
+FROM Asiakkaat 
+WHERE EXISTS (SELECT 1 FROM Tilaukset WHERE Asiakkaat.id = Tilaukset.asiakas_id);
+
+
+-- kokeillaan pikkasen muuta että tarkistellaan Tuotteen nimen ja varastotilannetta, että tilauksensa joka varastotilanne on yli 50kpl:ta
+SELECT Tuotteet.nimi, Tuotteet.varastotilanne 
+FROM Tuotteet 
+WHERE EXISTS (SELECT 1 FROM Tilaukset WHERE Tilaukset.id AND Tuotteet.varastotilanne > 50); 
 
