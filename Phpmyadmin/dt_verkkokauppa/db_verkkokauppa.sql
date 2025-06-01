@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 26, 2025 at 04:10 PM
+-- Generation Time: Jun 01, 2025 at 10:22 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -44,7 +44,7 @@ INSERT INTO `Asiakkaat` (`id`, `nimi`, `sähköposti`, `osoite`, `rekisteröitym
 (1, 'Matti Meikäläinen', 'matti@example.com', 'Suomi', '1965-06-05', 6760.87),
 (2, 'Anna Virtanen', 'anna@example.com', 'Suomi', '1964-07-31', 29689.94),
 (3, 'Jari Korhonen', 'jari@example.com', 'Suomi', '1975-08-18', 28167.12),
-(4, 'Paula Laine', 'paula@example.com', 'Suomi', '1973-05-26', 1765.79),
+(4, 'Paula Laine', 'paula@example.com', 'Suomi', '1973-05-26', 1942.37),
 (5, 'Sami Nieminen', 'sami@example.com', 'Suomi', '1989-02-08', 24327.57),
 (6, 'Laura Hiltunen', 'laura@example.com', 'Suomi', '1954-05-05', 16340.49),
 (7, 'Tomi Salminen', 'tomi@example.com', 'Suomi', '1973-05-21', 8719.74),
@@ -53,7 +53,7 @@ INSERT INTO `Asiakkaat` (`id`, `nimi`, `sähköposti`, `osoite`, `rekisteröitym
 (10, 'Veera Lehtinen', 'veera@example.com', 'Suomi', '1997-01-12', 49903.36),
 (11, 'William Taylor', 'william@example.com', 'UK', '1994-02-13', 7204.28),
 (12, 'Sophia Garcia', 'sophia@example.com', 'Spain', '1968-07-03', 44371.53),
-(13, 'James Anderson', 'james@example.com', 'Germany', '1969-02-27', 244.82),
+(13, 'James Anderson', 'james@example.com', 'Germany', '1969-02-27', 269.30),
 (14, 'Olivia White', 'olivia@example.com', 'France', '1989-04-13', 18109.52),
 (15, 'Daniel Lee', 'daniel@example.com', 'Japan', '1967-12-08', 39813.12),
 (16, 'Nathan Reed', 'nathan@example.com', 'USA', '2008-11-25', 31193.00),
@@ -61,7 +61,7 @@ INSERT INTO `Asiakkaat` (`id`, `nimi`, `sähköposti`, `osoite`, `rekisteröitym
 (18, 'Ethan Hall', 'ethan@example.com', 'Canada', '2004-06-21', 29261.16),
 (19, 'Lily Adams', 'lily@example.com', 'Germany', '2014-07-25', 22278.64),
 (20, 'Jackson Murphy', 'jackson@example.com', 'Australia', '2002-06-07', 9943.83),
-(21, 'Olivia Mäkinen', 'olivia2@example.com', 'Suomi', '1999-04-15', 3456.67),
+(21, 'Olivia Mäkinen', 'olivia2@example.com', 'Suomi', '1999-04-15', 3802.34),
 (22, 'Leon Shawn', 'leon@example.com', 'UK', '1998-05-13', 44132.84),
 (23, 'Gilbert Tate', 'gilbert@example.com', 'Australia', '1996-03-04', 23634.87),
 (105, 'Haruto Takahashi', 'haruto@example.com', 'Japan', '1992-07-15', 31267.45),
@@ -86,7 +86,12 @@ INSERT INTO `Asiakkaat` (`id`, `nimi`, `sähköposti`, `osoite`, `rekisteröitym
 (124, 'Elise Verhoeven', 'elise@example.com', 'Belgium', '1991-08-14', 38916.38),
 (125, 'Nathan Dewaele', 'nathan2@example.com', 'Belgium', '2005-12-09', 26382.71),
 (126, 'Matti', '%example.com', 'UK', NULL, 18000.00),
-(128, 'Nicole Colombi', 'nicole@example.com', 'Italy', NULL, 9999.12);
+(128, 'Nicole Colombi', 'nicole@example.com', 'Italy', NULL, 9999.12),
+(200, 'Emilia Ranta', 'emilia@example.com', 'Suomi', '1990-06-15', 24327.57),
+(201, 'Oliver Koskinen', 'oliver2@example.com', 'Suomi', '1985-04-10', 16340.49),
+(202, 'Noora Väänänen', 'noora@example.com', 'Suomi', '1978-12-05', 31193.00),
+(203, 'Kasper Laakso', 'kasper@example.com', 'Suomi', '1999-03-21', 12345.67),
+(204, 'Sofia Leppänen', 'sofia@example.com', 'Suomi', '2003-08-30', 12345.67);
 
 -- --------------------------------------------------------
 
@@ -159,7 +164,27 @@ INSERT INTO `Tilauksen_rivit` (`id`, `tilaus_id`, `tuote_id`, `määrä`, `yhtei
 (7, 5, 3, 3, 59.97),
 (8, 6, 6, 1, 39.99),
 (9, 7, 1, 1, 599.99),
-(10, 8, 7, 2, 159.98);
+(10, 8, 7, 2, 159.98),
+(41, 11, 3, 2, 39.98),
+(42, 12, 5, 1, 12.99),
+(43, 13, 6, 3, 119.97),
+(44, 14, 8, 2, 239.98),
+(45, 15, 10, 1, 439.99),
+(46, 16, 12, 5, 74.95),
+(47, 17, 15, 1, 142.99),
+(48, 18, 17, 4, 399.96),
+(49, 19, 19, 1, 99.99),
+(50, 20, 24, 2, 379.98),
+(51, 11, 3, 2, 39.98),
+(52, 12, 5, 1, 12.99),
+(53, 13, 6, 3, 119.97),
+(54, 14, 8, 2, 239.98),
+(55, 15, 10, 1, 439.99),
+(56, 16, 12, 5, 74.95),
+(57, 17, 15, 1, 142.99),
+(58, 18, 17, 4, 399.96),
+(59, 19, 19, 1, 99.99),
+(60, 20, 24, 2, 379.98);
 
 -- --------------------------------------------------------
 
@@ -190,6 +215,16 @@ INSERT INTO `Tilaukset` (`id`, `asiakas_id`, `tilaus_pvm`, `toimitus_status`, `m
 (8, 8, '2025-05-21', 'lähetetty', 2),
 (9, 9, '2023-11-18', 'toimitettu', 3),
 (10, 10, '2024-06-05', 'käsittelyssä', 1),
+(11, 10, '1995-03-22', 'toimitettu', 1),
+(12, 14, '2001-07-15', 'lähetetty', 2),
+(13, 21, '2010-08-04', 'käsittelyssä', 3),
+(14, 16, '1998-11-19', 'toimitettu', 1),
+(15, 18, '2005-05-30', 'lähetetty', 2),
+(16, 22, '2018-12-10', 'käsittelyssä', 3),
+(17, 11, '1993-06-25', 'toimitettu', 1),
+(18, 19, '2022-09-17', 'lähetetty', 2),
+(19, 17, '2015-04-02', 'käsittelyssä', 3),
+(20, 12, '2008-10-29', 'toimitettu', 1),
 (101, 11, '2001-05-14', 'Toimitettu', 1),
 (102, 12, '2003-09-21', 'Kadonnut', 2),
 (103, 15, '2007-06-11', 'Toimitettu', 3),
@@ -333,7 +368,7 @@ ALTER TABLE `Tuotteet`
 -- AUTO_INCREMENT for table `Asiakkaat`
 --
 ALTER TABLE `Asiakkaat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 
 --
 -- AUTO_INCREMENT for table `Kategoriat`
@@ -351,13 +386,13 @@ ALTER TABLE `Maksutavat`
 -- AUTO_INCREMENT for table `Tilauksen_rivit`
 --
 ALTER TABLE `Tilauksen_rivit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `Tilaukset`
 --
 ALTER TABLE `Tilaukset`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
 
 --
 -- AUTO_INCREMENT for table `Tuotteet`
